@@ -60,6 +60,47 @@ void DLinkedList<T>::insertEnd(const T& data)
 }
 
 template<class T>
+void DLinkedList<T>::insertAt(const T& data, int index)
+{
+    if (index < 0)
+    {
+        throw std::out_of_range("Index should be positive!");
+    }
+
+    if (first == nullptr)
+    {
+        if (index > 0)
+        {
+            throw std::out_of_range("Index out of range!");
+        }
+
+        first = new Node(data, nullptr, nullptr);
+        last = first;
+        return;
+    }
+
+    Node *current = first;
+    while (current != nullptr && index != 0)
+    {
+        index--;
+        current = current->next;
+    }
+
+    if (index > 0)
+    {
+        throw std::out_of_range("Index out of range!");
+    }
+
+    Node *temp = current->prev;
+    Node *newNode = new Node(data, temp, current);
+    if (temp != nullptr)
+    {
+        temp->next = newNode;
+    }
+    current->prev = newNode;
+}
+
+template<class T>
 DLinkedList<T>& DLinkedList<T>::operator+=(const T& data)
 {
     insertEnd(data);

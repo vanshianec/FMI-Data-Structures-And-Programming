@@ -26,6 +26,8 @@ public:
     ~DLinkedList();
     void insertStart(const T&);
     void insertEnd(const T&);
+    void insertAt(const T&, int index);
+    void deleteAt(int index);
     DLinkedList& operator+=(const T&);
     DLinkedList operator+(const T&) const;
     int length() const;
@@ -45,7 +47,7 @@ public:
     };
 
     Iterator begin();
-    Iterator begin(Node*);
+    Iterator begin(Node *);
     Iterator end();
 
 private:
