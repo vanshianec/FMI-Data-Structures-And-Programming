@@ -234,3 +234,22 @@ TEST_CASE ("Reverse")
                 CHECK(x == expectedValues[index++]);
     }
 }
+
+TEST_CASE("Copy Constructor")
+{
+    DLinkedList<int> list;
+    list.insertBack(4);
+    list.insertBack(6);
+    list.insertBack(1);
+    list.insertBack(12);
+
+    DLinkedList<int> list2(list);
+
+    int expectedValues[4] = {4, 6, 1, 12};
+    int index = 0;
+
+    for(int x : list2)
+    {
+        CHECK(x == expectedValues[index++]);
+    }
+}

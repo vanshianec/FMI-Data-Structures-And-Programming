@@ -394,29 +394,14 @@ void DLinkedList<T>::deleteNode(Node *node)
 template<class T>
 void DLinkedList<T>::copy(const DLinkedList& other)
 {
-    if (other.first == nullptr)
+    first = nullptr;
+    last = nullptr;
+    Node *current = other.first;
+    while (current != nullptr)
     {
-        first = nullptr;
-        last = nullptr;
-        return;
+        insertBack(current->data);
+        current = current->next;
     }
-
-    Node *otherCurrent = other.first;
-    first = new Node();
-    Node *thisCurrent = first;
-    while (otherCurrent != nullptr)
-    {
-        thisCurrent->data = otherCurrent->data;
-        if (otherCurrent->next != nullptr)
-        {
-            thisCurrent->next = new Node();
-            thisCurrent->next->prev = thisCurrent;
-        }
-
-        otherCurrent = otherCurrent->next;
-    }
-
-    last = thisCurrent;
 }
 
 template<class T>
