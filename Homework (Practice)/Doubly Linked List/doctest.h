@@ -423,7 +423,7 @@ namespace doctest {
 
     DOCTEST_INTERFACE extern bool is_running_in_test;
 
-    // A 24 byte string class (can be as small as 17 for x64 and 13 for x86) that can hold strings with length
+    // A 24 byte string class (can be as small as 17 for x64 and 13 for x86) that can hold strings with size
     // of up to 23 chars on the stack before going on the heap - the last byte of the buffer is used for:
     // - "is small" bit - the highest bit - if "0" then it is small - otherwise its "1" (128)
     // - if small - capacity left before going on the heap - using the lowest 5 bits

@@ -2,6 +2,7 @@
 #define DLINKEDLIST_CPP
 
 #include <stdexcept>
+#include <unordered_set>
 #include "DLinkedList.h"
 
 template<class T>
@@ -32,91 +33,7 @@ DLinkedList<T>::~DLinkedList()
 }
 
 template<class T>
-void DLinkedList<T>::insertStart(const T& data)
-{
-    first = new Node(data, nullptr, first);
-
-    if (first->next != nullptr)
-    {
-        first->next->prev = first;
-    } else
-    {
-        last = first;
-    }
-}
-
-template<class T>
-void DLinkedList<T>::insertEnd(const T& data)
-{
-    last = new Node(data, last, nullptr);
-
-    if (last->prev != nullptr)
-    {
-        last->prev->next = last;
-    } else
-    {
-        first = last;
-    }
-}
-
-template<class T>
-void DLinkedList<T>::insertAt(const T& data, int index)
-{
-    if (index < 0)
-    {
-        throw std::out_of_range("Index should be positive!");
-    }
-
-    if (first == nullptr)
-    {
-        if (index > 0)
-        {
-            throw std::out_of_range("Index out of range!");
-        }
-
-        first = new Node(data, nullptr, nullptr);
-        last = first;
-        return;
-    }
-
-    Node *current = first;
-    while (current != nullptr && index != 0)
-    {
-        index--;
-        current = current->next;
-    }
-
-    if (index > 0)
-    {
-        throw std::out_of_range("Index out of range!");
-    }
-
-    Node *temp = current->prev;
-    Node *newNode = new Node(data, temp, current);
-    if (temp != nullptr)
-    {
-        temp->next = newNode;
-    }
-    current->prev = newNode;
-}
-
-template<class T>
-DLinkedList<T>& DLinkedList<T>::operator+=(const T& data)
-{
-    insertEnd(data);
-    return *this;
-}
-
-template<class T>
-DLinkedList<T> DLinkedList<T>::operator+(const T& data) const
-{
-    DLinkedList<T> copy(*this);
-    copy += data;
-    return copy;
-}
-
-template<class T>
-int DLinkedList<T>::length() const
+int DLinkedList<T>::size() const
 {
     int length = 0;
     Node *current = first;
@@ -133,6 +50,209 @@ template<class T>
 bool DLinkedList<T>::isEmpty() const
 {
     return first == nullptr;
+}
+
+template<class T>
+T& DLinkedList<T>::front()
+{
+    if (isEmpty())
+    {
+        throw std::out_of_range("The list is empty!");
+    }
+
+    return first->data;
+}
+
+template<class T>
+T& DLinkedList<T>::back()
+{
+    if (isEmpty())
+    {
+        throw std::out_of_range("The list is empty!");
+    }
+
+    return last->data;
+}
+
+template<class T>
+T& DLinkedList<T>::get(int index)
+{
+    Node *current = getNode(index);
+    return current->data;
+}
+
+template<class T>
+void DLinkedList<T>::insertFront(const T& data)
+{
+    first = new Node(data, nullptr, first);
+
+    if (first->next != nullptr)
+    {
+        first->next->prev = first;
+    }
+    else
+    {
+        last = first;
+    }
+}
+
+template<class T>
+void DLinkedList<T>::insertBack(const T& data)
+{
+    last = new Node(data, last, nullptr);
+
+    if (last->prev != nullptr)
+    {
+        last->prev->next = last;
+    }
+    else
+    {
+        first = last;
+    }
+}
+
+template<class T>
+void DLinkedList<T>::insertAt(const T& data, int index)
+{
+    if (isEmpty())
+    {
+        if (index > 0)
+        {
+            throw std::invalid_argument("Index out of range!");
+        }
+
+        first = new Node(data, nullptr, nullptr);
+        last = first;
+        return;
+    }
+
+    Node *current = getNode(index);
+    Node *next = current->prev;
+    Node *newNode = new Node(data, next, current);
+    if (next != nullptr)
+    {
+        next->next = newNode;
+    }
+    current->prev = newNode;
+}
+
+template<class T>
+T DLinkedList<T>::removeFront()
+{
+    if (isEmpty())
+    {
+        throw std::out_of_range("List is empty!");
+    }
+
+    T data = first->data;
+    deleteNode(first);
+    return data;
+}
+
+template<class T>
+T DLinkedList<T>::removeBack()
+{
+    if (isEmpty())
+    {
+        throw std::out_of_range("List is empty!");
+    }
+
+    T data = last->data;
+    deleteNode(last);
+    return data;
+}
+
+template<class T>
+T DLinkedList<T>::deleteAt(int index)
+{
+    Node *current = getNode(index);
+    T data = current->data;
+    deleteNode(current);
+    return data;
+}
+
+template<class T>
+void DLinkedList<T>::swap(int firstIndex, int secondIndex)
+{
+    if (firstIndex > secondIndex)
+    {
+        throw std::invalid_argument("Start index should be less or equal to endIndex");
+    }
+
+    Node *firstNode = getNode(firstIndex);
+    Node *secondNode = getNode(secondIndex);
+
+    T temp = firstNode->data;
+    firstNode->data = secondNode->data;
+    secondNode->data = temp;
+}
+
+template<class T>
+void DLinkedList<T>::removeDuplicates()
+{
+    std::unordered_set<T> set;
+    Node *current = first;
+    Node *prev = nullptr;
+    while (current != nullptr)
+    {
+        if (set.find(current->data) != set.end())
+        {
+            deleteNode(current);
+        }
+        else
+        {
+            set.insert(current->data);
+            prev = current;
+        }
+
+        current = prev->next;
+    }
+}
+
+template<class T>
+void DLinkedList<T>::removeAll(const T& data)
+{
+    Node *current = first, *next;
+    while (current != nullptr)
+    {
+        next = current->next;
+        if (current->data == data)
+        {
+            deleteNode(current);
+        }
+        current = next;
+    }
+}
+
+template<class T>
+void DLinkedList<T>::reverse()
+{
+    Node *current = first;
+    first = last;
+    last = current;
+    Node *next = nullptr;
+    while (current != nullptr)
+    {
+        next = current->next;
+        current->next = current->prev;
+        current->prev = next;
+        current = next;
+    }
+}
+
+template<class T>
+DLinkedList<T>& DLinkedList<T>::operator+=(const T& data)
+{
+    insertBack(data);
+    return *this;
+}
+
+template<class T>
+DLinkedList<T> DLinkedList<T>::operator+(const T& data) const
+{
+    DLinkedList<T> copy(*this);
+    copy += data;
+    return copy;
 }
 
 template<class T>
@@ -212,6 +332,63 @@ template<class T>
 typename DLinkedList<T>::Iterator DLinkedList<T>::end()
 {
     return DLinkedList<T>::Iterator(nullptr);
+}
+
+template<class T>
+typename DLinkedList<T>::Node *DLinkedList<T>::getNode(int index)
+{
+    if (index < 0)
+    {
+        throw std::invalid_argument("Index should be positive!");
+    }
+
+    if (isEmpty())
+    {
+        throw std::out_of_range("List is empty!");
+    }
+
+    Node *current = first;
+    while (current->next != nullptr && index != 0)
+    {
+        current = current->next;
+        index--;
+    }
+
+    if (index > 0)
+    {
+        throw std::invalid_argument("Index out of range!");
+    }
+
+    return current;
+}
+
+template<class T>
+void DLinkedList<T>::deleteNode(Node *node)
+{
+    if (node == nullptr)
+    {
+        return;
+    }
+
+    if (node == first)
+    {
+        first = node->next;
+    }
+    else
+    {
+        node->prev->next = node->next;
+    }
+
+    if (node == last)
+    {
+        last = node->prev;
+    }
+    else
+    {
+        node->next->prev = node->prev;
+    }
+
+    delete node;
 }
 
 template<class T>

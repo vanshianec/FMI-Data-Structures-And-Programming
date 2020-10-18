@@ -24,14 +24,23 @@ public:
     DLinkedList(const DLinkedList&);
     DLinkedList& operator=(const DLinkedList&);
     ~DLinkedList();
-    void insertStart(const T&);
-    void insertEnd(const T&);
+    int size() const;
+    bool isEmpty() const;
+    T& front();
+    T& back();
+    T& get(int index);
+    void insertFront(const T&);
+    void insertBack(const T&);
     void insertAt(const T&, int index);
-    void deleteAt(int index);
+    T removeFront();
+    T removeBack();
+    T deleteAt(int index);
+    void swap(int firstIndex, int secondIndex);
+    void removeDuplicates();
+    void removeAll(const T&);
+    void reverse();
     DLinkedList& operator+=(const T&);
     DLinkedList operator+(const T&) const;
-    int length() const;
-    bool isEmpty() const;
     int count(Node *start, const T& element) const;
 
     class Iterator
@@ -54,6 +63,8 @@ private:
     template<class E>
     friend std::ostream& operator<<(std::ostream&, const DLinkedList<E>&);
 
+    Node* getNode(int index);
+    void deleteNode(Node*);
     void copy(const DLinkedList&);
     void clear();
 };
