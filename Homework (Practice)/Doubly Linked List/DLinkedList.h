@@ -9,14 +9,14 @@ private:
     {
         Node() : prev(nullptr), next(nullptr) {}
 
-        Node(const T& _data, Node *_prev, Node *_next) : data(_data), prev(_prev), next(_next) {}
+        Node(const T& _data, Node* _prev, Node* _next) : data(_data), prev(_prev), next(_next) {}
 
         T data;
-        Node *prev, *next;
+        Node* prev, * next;
     };
 
-    Node *first;
-    Node *last;
+    Node* first;
+    Node* last;
 
 public:
 
@@ -31,7 +31,7 @@ public:
     T& get(int index);
     void insertFront(const T&);
     void insertBack(const T&);
-    void insertAt(const T&, int index);
+    void insertAt(int index, const T&);
     T removeFront();
     T removeBack();
     T deleteAt(int index);
@@ -41,22 +41,22 @@ public:
     void reverse();
     DLinkedList& operator+=(const T&);
     DLinkedList operator+(const T&) const;
-    int count(Node *start, const T& element) const;
+    int count(Node* start, const T& element) const;
 
     class Iterator
     {
     public:
-        Iterator(Node *);
+        Iterator(Node*);
         T& operator*();
         Iterator& operator++();
         bool operator!=(const Iterator&);
 
     private:
-        Node *current;
+        Node* current;
     };
 
     Iterator begin();
-    Iterator begin(Node *);
+    Iterator begin(Node*);
     Iterator end();
 
 private:
@@ -64,6 +64,7 @@ private:
     friend std::ostream& operator<<(std::ostream&, const DLinkedList<E>&);
 
     Node* getNode(int index);
+    void insertNodeAt(Node* position, const T& data);
     void deleteNode(Node*);
     void copy(const DLinkedList&);
     void clear();

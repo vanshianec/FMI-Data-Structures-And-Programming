@@ -235,21 +235,230 @@ TEST_CASE ("Reverse")
     }
 }
 
-TEST_CASE("Copy Constructor")
+TEST_CASE ("Insert At")
 {
     DLinkedList<int> list;
+    bool invalidIndexException;
+    try
+    {
+        list.insertAt(-1, 9);
+    }
+    catch (std::out_of_range& exc)
+    {
+        invalidIndexException = true;
+    }
+            CHECK(invalidIndexException);
+
+    invalidIndexException = false;
+
+    try
+    {
+        list.insertAt(1, 9);
+    }
+    catch (std::out_of_range& exc)
+    {
+        invalidIndexException = true;
+    }
+
+            CHECK(invalidIndexException);
+
+    list.insertAt(0, 9);
+            CHECK(list.get(0) == 9);
+
+    invalidIndexException = false;
+    try
+    {
+        list.insertAt(2, 4);
+    }
+    catch (std::invalid_argument& exc)
+    {
+        invalidIndexException = true;
+    }
+
+            CHECK(invalidIndexException);
+
+
+    list.insertAt(0, 8);
+            CHECK(list.get(0) == 8);
+    list.insertAt(1, 10);
+            CHECK(list.get(1) == 10);
+    list.insertAt(1, 11);
+            CHECK(list.get(1) == 11);
+    list.insertAt(4, 20);
+            CHECK(list.get(4) == 20);
+
+    int expectedValues[5] = {8, 11, 10, 9, 20};
+    int index = 0;
+
+    for (int x : list)
+    {
+                CHECK(expectedValues[index++] == x);
+    }
+}
+
+TEST_CASE ("Copy Constructor")
+{
+    DLinkedList<int> list;
+    DLinkedList<int> list2(list);
+            CHECK(list2.isEmpty());
     list.insertBack(4);
     list.insertBack(6);
     list.insertBack(1);
     list.insertBack(12);
 
-    DLinkedList<int> list2(list);
+    DLinkedList<int> list3(list);
 
     int expectedValues[4] = {4, 6, 1, 12};
     int index = 0;
 
-    for(int x : list2)
+    for (int x : list3)
     {
-        CHECK(x == expectedValues[index++]);
+                CHECK(x == expectedValues[index++]);
     }
 }
+
+TEST_CASE ("Remove Front")
+{
+    DLinkedList<int> list;
+    bool exception = false;
+
+    try
+    {
+        list.removeFront();
+    }
+    catch (std::out_of_range& exc)
+    {
+        exception = true;
+    }
+
+            CHECK(exception);
+
+    list.insertBack(3);
+            CHECK(list.removeFront() == 3);
+            CHECK(list.isEmpty());
+
+    list.insertBack(9);
+    list.insertBack(2);
+            CHECK(list.removeFront() == 9);
+            CHECK(list.removeFront() == 2);
+
+}
+
+TEST_CASE ("Remove Back")
+{
+    DLinkedList<int> list;
+    bool exception = false;
+
+    try
+    {
+        list.removeBack();
+    }
+    catch (std::out_of_range& exc)
+    {
+        exception = true;
+    }
+
+            CHECK(exception);
+
+    list.insertBack(3);
+            CHECK(list.removeBack() == 3);
+            CHECK(list.isEmpty());
+
+    list.insertBack(9);
+    list.insertBack(2);
+            CHECK(list.removeBack() == 2);
+            CHECK(list.removeBack() == 9);
+
+}
+
+TEST_CASE ("Delete At")
+{
+    DLinkedList<int> list;
+    bool exception = false;
+
+    try
+    {
+        list.deleteAt(0);
+    }
+    catch (std::out_of_range& exc)
+    {
+        exception = true;
+    }
+
+            CHECK(exception);
+
+    list.insertBack(9);
+
+    exception = false;
+
+    try
+    {
+        list.deleteAt(1);
+    }
+    catch (std::invalid_argument& exc)
+    {
+        exception = true;
+    }
+
+            CHECK(exception);
+
+    exception = false;
+
+    try
+    {
+        list.deleteAt(-1);
+    }
+    catch (std::invalid_argument& exc)
+    {
+        exception = true;
+    }
+
+            CHECK(exception);
+
+            CHECK(list.deleteAt(0) == 9);
+            CHECK(list.isEmpty());
+
+    list.insertBack(1);
+    list.insertBack(2);
+    list.insertBack(3);
+
+    list.deleteAt(2);
+            CHECK(list.front() == 1);
+            CHECK(list.back() == 2);
+
+    list.insertBack(3);
+            CHECK(list.get(0) == 1);
+            CHECK(list.get(1) == 2);
+            CHECK(list.get(2) == 3);
+    list.deleteAt(1);
+            CHECK(list.get(0) == 1);
+            CHECK(list.get(1) == 3);
+    list.insertAt(1, 2);
+    list.deleteAt(0);
+            CHECK(list.get(0) == 2);
+            CHECK(list.get(1) == 3);
+
+            CHECK(list.deleteAt(1) == 3);
+            CHECK(list.deleteAt(0) == 2);
+            CHECK(list.isEmpty());
+}
+
+TEST_CASE("Swap")
+{
+    DLinkedList<int> list;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
