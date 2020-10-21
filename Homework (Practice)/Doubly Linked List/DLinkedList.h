@@ -41,7 +41,7 @@ public:
     void reverse();
     DLinkedList& operator+=(const T&);
     DLinkedList operator+(const T&) const;
-    int count(Node* start, const T& element) const;
+    void clear();
 
     class Iterator
     {
@@ -66,8 +66,8 @@ private:
     Node* getNode(int index);
     void insertNodeAt(Node* position, const T& data);
     void deleteNode(Node*);
+    int count(Node* start, const T& element) const;
     void copy(const DLinkedList&);
-    void clear();
 };
 
 template<class T>

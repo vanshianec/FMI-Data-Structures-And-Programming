@@ -443,10 +443,181 @@ TEST_CASE ("Delete At")
             CHECK(list.isEmpty());
 }
 
-TEST_CASE("Swap")
+TEST_CASE ("Swap")
 {
     DLinkedList<int> list;
 
+    bool throwsException = false;
+
+    try
+    {
+        //list is empty
+        list.swap(0, 1);
+    }
+    catch (std::out_of_range& exc)
+    {
+        throwsException = true;
+    }
+
+            CHECK(throwsException);
+
+    throwsException = false;
+
+    list.insertBack(3);
+
+    try
+    {
+        //index out of range
+        list.swap(0, 1);
+    }
+    catch (std::invalid_argument& exc)
+    {
+        throwsException = true;
+    }
+
+            CHECK(throwsException);
+
+    list.insertBack(13);
+
+    list.swap(0, 1);
+            CHECK(list.front() == 13);
+            CHECK(list.back() == 3);
+
+    throwsException = false;
+    try
+    {
+        list.swap(-1, 0);
+    }
+    catch (std::invalid_argument& exc)
+    {
+        throwsException = true;
+    }
+
+            CHECK(throwsException);
+
+    list.insertBack(99);
+    list.insertBack(999);
+
+    list.swap(0, 3);
+            CHECK(list.front() == 999);
+            CHECK(list.back() == 13);
+
+    list.swap(1, 2);
+            CHECK(list.get(1) == 99);
+            CHECK(list.get(2) == 3);
+}
+
+TEST_CASE ("Remove Duplicates")
+{
+    DLinkedList<int> list;
+            CHECK(list.isEmpty());
+    list.removeDuplicates();
+            CHECK(list.isEmpty());
+
+    list.insertBack(1);
+
+            CHECK(list.get(0) == 1);
+    list.removeDuplicates();
+            CHECK(list.get(0) == 1);
+
+    list.insertBack(2);
+    list.insertBack(3);
+
+            CHECK(list.size() == 3);
+    list.removeDuplicates();
+            CHECK(list.size() == 3);
+
+    list.insertBack(2);
+    list.insertBack(2);
+
+            CHECK(list.size() == 5);
+    list.removeDuplicates();
+            CHECK(list.size() == 3);
+
+            CHECK(list.get(0) == 1);
+            CHECK(list.get(1) == 2);
+            CHECK(list.get(2) == 3);
+
+    list.insertFront(2);
+    list.insertBack(1);
+
+    list.removeDuplicates();
+            CHECK(list.get(0) == 2);
+            CHECK(list.get(1) == 1);
+            CHECK(list.get(2) == 3);
+}
+
+TEST_CASE ("Remove All")
+{
+    DLinkedList<int> list;
+    list.removeAll(3);
+            CHECK(list.isEmpty());
+
+    list.insertBack(1);
+    list.insertBack(1);
+    list.insertBack(1);
+
+    list.removeAll(2);
+            CHECK(list.size() == 3);
+    list.removeAll(1);
+            CHECK(list.size() == 0);
+
+    list.insertBack(1);
+    list.insertBack(2);
+    list.insertBack(3);
+
+    list.removeAll(2);
+            CHECK(list.front() == 1);
+            CHECK(list.back() == 3);
+
+    list.insertBack(3);
+    list.insertBack(3);
+
+    list.removeAll(3);
+            CHECK(list.front() == 1);
+            CHECK(list.back() == 1);
+
+    list.removeAll(1);
+            CHECK(list.isEmpty());
+}
+
+TEST_CASE ("Operator +")
+{
+    DLinkedList<int> list1;
+    DLinkedList<int> list2 = list1 + 1;
+            CHECK(list2.front() == 1);
+            CHECK(list1.isEmpty());
+    list2 = list2 + 2;
+    list2 = list2 + 3;
+            CHECK(list2.get(0) == 1);
+            CHECK(list2.get(1) == 2);
+            CHECK(list2.get(2) == 3);
+
+    list2 + 4;
+            CHECK(list2.size() == 3);
+}
+
+TEST_CASE ("Operator +=")
+{
+    DLinkedList<int> list1;
+    list1 += 1;
+            CHECK(list1.front() == 1);
+    list1 += 2;
+    list1 += 3;
+            CHECK(list1.get(0) == 1);
+            CHECK(list1.get(1) == 2);
+            CHECK(list1.get(2) == 3);
+
+    DLinkedList<int> list2 = list1 += 4;
+            CHECK(list2.get(0) == 1);
+            CHECK(list2.get(1) == 2);
+            CHECK(list2.get(2) == 3);
+            CHECK(list2.get(3) == 4);
+
+            CHECK(list1.get(0) == 1);
+            CHECK(list1.get(1) == 2);
+            CHECK(list1.get(2) == 3);
+            CHECK(list1.get(3) == 4);
 }
 
 
