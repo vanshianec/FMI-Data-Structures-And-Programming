@@ -5,6 +5,7 @@
 #include <cassert>
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 template<class T>
 BinTree<T>::BinTree() : root(nullptr) {}
@@ -195,5 +196,106 @@ T BinTree<T>::maxLeaf(Node *current) const
     return std::max(maxLeaf(current->left), maxLeaf(current->right));
 }
 
+
+template<class T>
+std::vector<T> BinTree<T>::listLeaves() const
+{
+    std::vector<T> leaves;
+    listLeaves(leaves, root);
+    return leaves;
+}
+
+template<class T>
+void BinTree<T>::listLeaves(std::vector<T>& leaves, Node *current) const
+{
+    if (current == nullptr)
+    {
+        return;
+    }
+
+    if (current->left == nullptr && current->right == nullptr)
+    {
+        leaves.push_back(current->value);
+        return;
+    }
+
+    listLeaves(leaves, current->left);
+    listLeaves(leaves, current->right);
+}
+
+template<class T>
+std::string BinTree<T>::findTrace(const T& x) const
+{
+    std::string trace = "-";
+    findTrace(trace, root, x);
+    std::reverse(trace.begin(), trace.end());
+    if (trace.size() > 1)
+    {
+        trace.pop_back();
+    }
+    return trace;
+}
+
+template<class T>
+bool BinTree<T>::findTrace(std::string& trace, Node *current, const T& x) const
+{
+    if (current == nullptr)
+    {
+        return false;
+    }
+
+    if (current->value == x)
+    {
+        trace.push_back(' ');
+        return true;
+    }
+
+    if (findTrace(trace, current->left, x))
+    {
+        trace.push_back('L');
+        return true;
+    }
+
+    if (findTrace(trace, current->right, x))
+    {
+        trace.push_back('R');
+        return true;
+    }
+
+    return false;
+}
+
+template<class T>
+T BinTree<T>::getAt(int index) const
+{
+    int count = 0;
+    return getAt(root, index, count);
+}
+
+template<class T>
+T BinTree<T>::getAt(Node *current, int index, int& count) const
+{
+    if (current == nullptr)
+    {
+        count--;
+        return -1;
+    }
+
+    if (count == index)
+    {
+        return current->value;
+    }
+
+    count++;
+    T left = getAt(current->left, index, count);
+
+    if (left == -1)
+    {
+        count++;
+        return getAt(current->right, index, count);
+    }
+
+    return left;
+}
 
 #endif

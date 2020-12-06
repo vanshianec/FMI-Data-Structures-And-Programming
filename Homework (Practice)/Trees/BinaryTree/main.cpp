@@ -26,4 +26,15 @@ int main()
     std::cout << tree.countLeaves() << std::endl;
     std::cout << tree.maxLeaf() << std::endl;
 
+    std::vector<int> leaves = tree.listLeaves();
+    for (int leaf : leaves)
+    {
+        std::cout << leaf << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << tree.findTrace(222) << std::endl;
+
+    std::cout << tree.getAt(5) << std::endl;
+
 }
