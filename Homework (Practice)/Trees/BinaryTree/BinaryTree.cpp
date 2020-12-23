@@ -298,4 +298,105 @@ T BinTree<T>::getAt(Node *current, int index, int& count) const
     return left;
 }
 
+template<class T>
+typename BinTree<T>::Position BinTree<T>::rootPosition()
+{
+    return Position(root);
+}
+
+template<class T>
+BinTree<T>::Position::Position(BinTree::Node *& node) : current(node) {}
+
+template<class T>
+typename BinTree<T>::Position BinTree<T>::Position::left() const
+{
+    assert(current != nullptr);
+    return Position(current->left);
+}
+
+template<class T>
+typename BinTree<T>::Position BinTree<T>::Position::right() const
+{
+    assert(current != nullptr);
+    return Position(current->right);
+}
+
+template<class T>
+T BinTree<T>::Position::get() const
+{
+    assert(current != nullptr);
+    return current->value;
+}
+
+template<class T>
+void BinTree<T>::Position::set(const T& value)
+{
+    if (current != nullptr)
+    {
+        current->value = value;
+    }
+    else
+    {
+        current = new Node{value, nullptr, nullptr};
+    }
+}
+
+template<class T>
+bool BinTree<T>::Position::empty() const
+{
+    return current == nullptr;
+}
+
+template<class T>
+BinTree<T>::Iterator::Iterator(BinTree::Node *current)
+{
+    while (current != nullptr)
+    {
+        s.push(current);
+        current = current->left;
+    }
+}
+
+template<class T>
+typename BinTree<T>::Iterator& BinTree<T>::Iterator::operator++()
+{
+    assert(!s.empty());
+
+    BinTree<T>::Node *current = s.top()->right;
+    s.pop();
+
+    while (current != nullptr)
+    {
+        s.push(current);
+        current = current->left;
+    }
+
+    return *this;
+}
+
+template<class T>
+T BinTree<T>::Iterator::operator*() const
+{
+    return s.top()->value;
+}
+
+template<class T>
+bool BinTree<T>::Iterator::operator!=(const BinTree::Iterator& other) const
+{
+    return s != other.s;
+}
+
+template<class T>
+typename BinTree<T>::Iterator BinTree<T>::begin()
+{
+    return BinTree::Iterator(root);
+}
+
+template<class T>
+typename BinTree<T>::Iterator BinTree<T>::end()
+{
+    return BinTree::Iterator(nullptr);
+}
+
 #endif
+

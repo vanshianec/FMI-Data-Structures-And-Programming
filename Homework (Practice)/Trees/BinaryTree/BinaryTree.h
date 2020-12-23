@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <stack>
 
 template<class T>
 class BinTree
@@ -41,7 +42,40 @@ private:
     T maxLeaf(Node *) const;
     void listLeaves(std::vector<T>& leaves, Node *current) const;
     bool findTrace(std::string& trace, Node *current, const T& x) const;
-    T getAt(Node *, int index, int &count) const;
+    T getAt(Node *, int index, int& count) const;
+
+public:
+    class Position
+    {
+    public:
+        Position(Node *&);
+        Position left() const;
+        Position right() const;
+        T get() const;
+        void set(const T&);
+        bool empty() const;
+
+    private:
+        Node *& current;
+    };
+
+    Position rootPosition();
+
+    class Iterator
+    {
+    public:
+        Iterator(Node *);
+
+        Iterator& operator++();
+        T operator*() const;
+        bool operator!=(const Iterator&) const;
+
+    private:
+        std::stack<Node *> s;
+    };
+
+    Iterator begin();
+    Iterator end();
 
 };
 
