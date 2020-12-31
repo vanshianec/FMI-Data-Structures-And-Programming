@@ -21,6 +21,17 @@ public:
 
 private:
     std::istream& input;
+    bool isNumber(char) const;
+    bool isDot(char) const;
+    bool isAlphabeticOrUnderscore(char) const;
+    Token lessThanOperator();
+    Token moreThanOperator();
+    Token notEqualOperator();
+    Token stringValue();
+    Token stringVariable(char);
+    Token numberVariable(char);
+    void validateNegativeNumber(char) const;
+    void validateFloatingPointNumber(const std::string&, int, int) const;
 };
 
 #endif
