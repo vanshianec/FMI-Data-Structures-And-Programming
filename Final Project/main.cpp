@@ -3,6 +3,7 @@
 
 int main()
 {
+    std::string str;
     Parser parser(std::cin);
     parser.parseQuery();
 

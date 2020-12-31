@@ -9,6 +9,11 @@ class Parser
 private:
     Scanner scanner;
     Scanner::Token currentToken;
+    void consume(TokenType);
+    void consumeDataType();
+    void consumeColumnValue();
+    void consumeOperator();
+    void consumeAggregate();
 
 public:
     Parser(std::istream&);

@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Parser.cpp
+iostream
+-
+vector
+-
+Parser.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Parser.h
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Parser.h
+istream
+-
+Scanner.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Scanner.h
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Scanner.cpp
+Scanner.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Scanner.h
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Scanner.h
+istream
+-
+TokenType.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/TokenType.h
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/TokenType.h
+

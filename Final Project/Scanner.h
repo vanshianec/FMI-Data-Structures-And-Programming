@@ -13,7 +13,6 @@ public:
         std::string value;
     };
 
-public:
     Scanner(std::istream&);
 
     Token nextToken();
