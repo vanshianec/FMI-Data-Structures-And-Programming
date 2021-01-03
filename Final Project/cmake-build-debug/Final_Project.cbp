@@ -80,16 +80,58 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/CreateIndexQuery.cpp">
+			<Option target="Final_Project"/>
+		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/CreateIndexQuery.h">
+			<Option target="Final_Project"/>
+		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/CreateTableQuery.cpp">
+			<Option target="Final_Project"/>
+		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/CreateTableQuery.h">
+			<Option target="Final_Project"/>
+		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Executor.cpp">
+			<Option target="Final_Project"/>
+		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Executor.h">
+			<Option target="Final_Project"/>
+		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/InsertQuery.cpp">
+			<Option target="Final_Project"/>
+		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/InsertQuery.h">
+			<Option target="Final_Project"/>
+		</Unit>
 		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Parser.cpp">
 			<Option target="Final_Project"/>
 		</Unit>
 		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Parser.h">
 			<Option target="Final_Project"/>
 		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.cpp">
+			<Option target="Final_Project"/>
+		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h">
+			<Option target="Final_Project"/>
+		</Unit>
 		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Scanner.cpp">
 			<Option target="Final_Project"/>
 		</Unit>
 		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Scanner.h">
+			<Option target="Final_Project"/>
+		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/SelectQuery.cpp">
+			<Option target="Final_Project"/>
+		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/SelectQuery.h">
+			<Option target="Final_Project"/>
+		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/UpdateQuery.cpp">
+			<Option target="Final_Project"/>
+		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/UpdateQuery.h">
 			<Option target="Final_Project"/>
 		</Unit>
 		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/main.cpp">

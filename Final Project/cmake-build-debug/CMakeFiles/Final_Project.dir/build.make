@@ -115,11 +115,109 @@ CMakeFiles/Final_Project.dir/Parser.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Final_Project.dir/Parser.cpp.s"
 	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\Parser.cpp" -o CMakeFiles\Final_Project.dir\Parser.cpp.s
 
+CMakeFiles/Final_Project.dir/Query.cpp.obj: CMakeFiles/Final_Project.dir/flags.make
+CMakeFiles/Final_Project.dir/Query.cpp.obj: ../Query.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Final_Project.dir/Query.cpp.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Final_Project.dir\Query.cpp.obj -c "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\Query.cpp"
+
+CMakeFiles/Final_Project.dir/Query.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Final_Project.dir/Query.cpp.i"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\Query.cpp" > CMakeFiles\Final_Project.dir\Query.cpp.i
+
+CMakeFiles/Final_Project.dir/Query.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Final_Project.dir/Query.cpp.s"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\Query.cpp" -o CMakeFiles\Final_Project.dir\Query.cpp.s
+
+CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj: CMakeFiles/Final_Project.dir/flags.make
+CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj: ../CreateTableQuery.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Final_Project.dir\CreateTableQuery.cpp.obj -c "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\CreateTableQuery.cpp"
+
+CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.i"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\CreateTableQuery.cpp" > CMakeFiles\Final_Project.dir\CreateTableQuery.cpp.i
+
+CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.s"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\CreateTableQuery.cpp" -o CMakeFiles\Final_Project.dir\CreateTableQuery.cpp.s
+
+CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj: CMakeFiles/Final_Project.dir/flags.make
+CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj: ../InsertQuery.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Final_Project.dir\InsertQuery.cpp.obj -c "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\InsertQuery.cpp"
+
+CMakeFiles/Final_Project.dir/InsertQuery.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Final_Project.dir/InsertQuery.cpp.i"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\InsertQuery.cpp" > CMakeFiles\Final_Project.dir\InsertQuery.cpp.i
+
+CMakeFiles/Final_Project.dir/InsertQuery.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Final_Project.dir/InsertQuery.cpp.s"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\InsertQuery.cpp" -o CMakeFiles\Final_Project.dir\InsertQuery.cpp.s
+
+CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj: CMakeFiles/Final_Project.dir/flags.make
+CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj: ../UpdateQuery.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Final_Project.dir\UpdateQuery.cpp.obj -c "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\UpdateQuery.cpp"
+
+CMakeFiles/Final_Project.dir/UpdateQuery.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Final_Project.dir/UpdateQuery.cpp.i"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\UpdateQuery.cpp" > CMakeFiles\Final_Project.dir\UpdateQuery.cpp.i
+
+CMakeFiles/Final_Project.dir/UpdateQuery.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Final_Project.dir/UpdateQuery.cpp.s"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\UpdateQuery.cpp" -o CMakeFiles\Final_Project.dir\UpdateQuery.cpp.s
+
+CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj: CMakeFiles/Final_Project.dir/flags.make
+CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj: ../SelectQuery.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Final_Project.dir\SelectQuery.cpp.obj -c "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\SelectQuery.cpp"
+
+CMakeFiles/Final_Project.dir/SelectQuery.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Final_Project.dir/SelectQuery.cpp.i"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\SelectQuery.cpp" > CMakeFiles\Final_Project.dir\SelectQuery.cpp.i
+
+CMakeFiles/Final_Project.dir/SelectQuery.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Final_Project.dir/SelectQuery.cpp.s"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\SelectQuery.cpp" -o CMakeFiles\Final_Project.dir\SelectQuery.cpp.s
+
+CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj: CMakeFiles/Final_Project.dir/flags.make
+CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj: ../CreateIndexQuery.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Final_Project.dir\CreateIndexQuery.cpp.obj -c "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\CreateIndexQuery.cpp"
+
+CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.i"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\CreateIndexQuery.cpp" > CMakeFiles\Final_Project.dir\CreateIndexQuery.cpp.i
+
+CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.s"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\CreateIndexQuery.cpp" -o CMakeFiles\Final_Project.dir\CreateIndexQuery.cpp.s
+
+CMakeFiles/Final_Project.dir/Executor.cpp.obj: CMakeFiles/Final_Project.dir/flags.make
+CMakeFiles/Final_Project.dir/Executor.cpp.obj: ../Executor.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Final_Project.dir/Executor.cpp.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Final_Project.dir\Executor.cpp.obj -c "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\Executor.cpp"
+
+CMakeFiles/Final_Project.dir/Executor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Final_Project.dir/Executor.cpp.i"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\Executor.cpp" > CMakeFiles\Final_Project.dir\Executor.cpp.i
+
+CMakeFiles/Final_Project.dir/Executor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Final_Project.dir/Executor.cpp.s"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\Executor.cpp" -o CMakeFiles\Final_Project.dir\Executor.cpp.s
+
 # Object files for target Final_Project
 Final_Project_OBJECTS = \
 "CMakeFiles/Final_Project.dir/main.cpp.obj" \
 "CMakeFiles/Final_Project.dir/Scanner.cpp.obj" \
-"CMakeFiles/Final_Project.dir/Parser.cpp.obj"
+"CMakeFiles/Final_Project.dir/Parser.cpp.obj" \
+"CMakeFiles/Final_Project.dir/Query.cpp.obj" \
+"CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj" \
+"CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj" \
+"CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj" \
+"CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj" \
+"CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj" \
+"CMakeFiles/Final_Project.dir/Executor.cpp.obj"
 
 # External object files for target Final_Project
 Final_Project_EXTERNAL_OBJECTS =
@@ -127,11 +225,18 @@ Final_Project_EXTERNAL_OBJECTS =
 Final_Project.exe: CMakeFiles/Final_Project.dir/main.cpp.obj
 Final_Project.exe: CMakeFiles/Final_Project.dir/Scanner.cpp.obj
 Final_Project.exe: CMakeFiles/Final_Project.dir/Parser.cpp.obj
+Final_Project.exe: CMakeFiles/Final_Project.dir/Query.cpp.obj
+Final_Project.exe: CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj
+Final_Project.exe: CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj
+Final_Project.exe: CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj
+Final_Project.exe: CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj
+Final_Project.exe: CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj
+Final_Project.exe: CMakeFiles/Final_Project.dir/Executor.cpp.obj
 Final_Project.exe: CMakeFiles/Final_Project.dir/build.make
 Final_Project.exe: CMakeFiles/Final_Project.dir/linklibs.rsp
 Final_Project.exe: CMakeFiles/Final_Project.dir/objects1.rsp
 Final_Project.exe: CMakeFiles/Final_Project.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable Final_Project.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="E:\Programming\CLionProjects\FMI Data Structures and Programming\Final Project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable Final_Project.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Final_Project.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

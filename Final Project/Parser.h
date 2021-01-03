@@ -4,12 +4,15 @@
 #include <istream>
 #include <vector>
 #include "Scanner.h"
+#include "Query.h"
 
 class Parser
 {
 private:
     Scanner scanner;
     Scanner::Token currentToken;
+    Query* currentQuery;
+
     void consume(TokenType);
     void consumeDataType();
     void consumeColumnValue();
@@ -21,17 +24,19 @@ private:
     void parseSelectQuery();
     void parseCreateTable();
     void parseCreateIndex();
-    void parseSelectAggregate(std::vector<std::string>&);
+    void parseSelectAggregate(std::vector<std::string>&, std::vector<TokenType>&);
     void parseSelectColumns(std::vector<std::string>&);
-    void parseSelectAfterFrom(std::vector<std::string>&);
-    void parseWhereClause(std::string&, std::string&);
-    void parseOrderByClause(std::string&);
+    void parseSelectAfterFrom(std::vector<std::string>&, std::vector<TokenType>&);
+    void parseWhereClause(std::string&, std::string&, TokenType&);
+    void parseOrderByClause(std::string&, TokenType&);
     void assureSemiColumn() const;
-    void error(const char *) const;
+    void error(const char*) const;
+    void deleteQuery();
 
 public:
     Parser(std::istream&);
-    void parseQuery();
+    Query* parseQuery();
+    ~Parser();
 };
 
 #endif

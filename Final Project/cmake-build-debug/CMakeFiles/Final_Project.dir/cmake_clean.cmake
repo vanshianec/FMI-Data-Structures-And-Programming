@@ -1,6 +1,13 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj"
+  "CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj"
+  "CMakeFiles/Final_Project.dir/Executor.cpp.obj"
+  "CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj"
   "CMakeFiles/Final_Project.dir/Parser.cpp.obj"
+  "CMakeFiles/Final_Project.dir/Query.cpp.obj"
   "CMakeFiles/Final_Project.dir/Scanner.cpp.obj"
+  "CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj"
+  "CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj"
   "CMakeFiles/Final_Project.dir/main.cpp.obj"
   "Final_Project.exe"
   "Final_Project.exe.manifest"

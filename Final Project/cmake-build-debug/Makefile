@@ -142,6 +142,114 @@ Final_Project/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/build
 .PHONY : Final_Project/fast
 
+CreateIndexQuery.obj: CreateIndexQuery.cpp.obj
+
+.PHONY : CreateIndexQuery.obj
+
+# target to build an object file
+CreateIndexQuery.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj
+.PHONY : CreateIndexQuery.cpp.obj
+
+CreateIndexQuery.i: CreateIndexQuery.cpp.i
+
+.PHONY : CreateIndexQuery.i
+
+# target to preprocess a source file
+CreateIndexQuery.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.i
+.PHONY : CreateIndexQuery.cpp.i
+
+CreateIndexQuery.s: CreateIndexQuery.cpp.s
+
+.PHONY : CreateIndexQuery.s
+
+# target to generate assembly for a file
+CreateIndexQuery.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.s
+.PHONY : CreateIndexQuery.cpp.s
+
+CreateTableQuery.obj: CreateTableQuery.cpp.obj
+
+.PHONY : CreateTableQuery.obj
+
+# target to build an object file
+CreateTableQuery.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj
+.PHONY : CreateTableQuery.cpp.obj
+
+CreateTableQuery.i: CreateTableQuery.cpp.i
+
+.PHONY : CreateTableQuery.i
+
+# target to preprocess a source file
+CreateTableQuery.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.i
+.PHONY : CreateTableQuery.cpp.i
+
+CreateTableQuery.s: CreateTableQuery.cpp.s
+
+.PHONY : CreateTableQuery.s
+
+# target to generate assembly for a file
+CreateTableQuery.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.s
+.PHONY : CreateTableQuery.cpp.s
+
+Executor.obj: Executor.cpp.obj
+
+.PHONY : Executor.obj
+
+# target to build an object file
+Executor.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Executor.cpp.obj
+.PHONY : Executor.cpp.obj
+
+Executor.i: Executor.cpp.i
+
+.PHONY : Executor.i
+
+# target to preprocess a source file
+Executor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Executor.cpp.i
+.PHONY : Executor.cpp.i
+
+Executor.s: Executor.cpp.s
+
+.PHONY : Executor.s
+
+# target to generate assembly for a file
+Executor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Executor.cpp.s
+.PHONY : Executor.cpp.s
+
+InsertQuery.obj: InsertQuery.cpp.obj
+
+.PHONY : InsertQuery.obj
+
+# target to build an object file
+InsertQuery.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj
+.PHONY : InsertQuery.cpp.obj
+
+InsertQuery.i: InsertQuery.cpp.i
+
+.PHONY : InsertQuery.i
+
+# target to preprocess a source file
+InsertQuery.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/InsertQuery.cpp.i
+.PHONY : InsertQuery.cpp.i
+
+InsertQuery.s: InsertQuery.cpp.s
+
+.PHONY : InsertQuery.s
+
+# target to generate assembly for a file
+InsertQuery.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/InsertQuery.cpp.s
+.PHONY : InsertQuery.cpp.s
+
 Parser.obj: Parser.cpp.obj
 
 .PHONY : Parser.obj
@@ -169,6 +277,33 @@ Parser.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Parser.cpp.s
 .PHONY : Parser.cpp.s
 
+Query.obj: Query.cpp.obj
+
+.PHONY : Query.obj
+
+# target to build an object file
+Query.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Query.cpp.obj
+.PHONY : Query.cpp.obj
+
+Query.i: Query.cpp.i
+
+.PHONY : Query.i
+
+# target to preprocess a source file
+Query.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Query.cpp.i
+.PHONY : Query.cpp.i
+
+Query.s: Query.cpp.s
+
+.PHONY : Query.s
+
+# target to generate assembly for a file
+Query.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Query.cpp.s
+.PHONY : Query.cpp.s
+
 Scanner.obj: Scanner.cpp.obj
 
 .PHONY : Scanner.obj
@@ -195,6 +330,60 @@ Scanner.s: Scanner.cpp.s
 Scanner.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Scanner.cpp.s
 .PHONY : Scanner.cpp.s
+
+SelectQuery.obj: SelectQuery.cpp.obj
+
+.PHONY : SelectQuery.obj
+
+# target to build an object file
+SelectQuery.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj
+.PHONY : SelectQuery.cpp.obj
+
+SelectQuery.i: SelectQuery.cpp.i
+
+.PHONY : SelectQuery.i
+
+# target to preprocess a source file
+SelectQuery.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/SelectQuery.cpp.i
+.PHONY : SelectQuery.cpp.i
+
+SelectQuery.s: SelectQuery.cpp.s
+
+.PHONY : SelectQuery.s
+
+# target to generate assembly for a file
+SelectQuery.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/SelectQuery.cpp.s
+.PHONY : SelectQuery.cpp.s
+
+UpdateQuery.obj: UpdateQuery.cpp.obj
+
+.PHONY : UpdateQuery.obj
+
+# target to build an object file
+UpdateQuery.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj
+.PHONY : UpdateQuery.cpp.obj
+
+UpdateQuery.i: UpdateQuery.cpp.i
+
+.PHONY : UpdateQuery.i
+
+# target to preprocess a source file
+UpdateQuery.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/UpdateQuery.cpp.i
+.PHONY : UpdateQuery.cpp.i
+
+UpdateQuery.s: UpdateQuery.cpp.s
+
+.PHONY : UpdateQuery.s
+
+# target to generate assembly for a file
+UpdateQuery.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/UpdateQuery.cpp.s
+.PHONY : UpdateQuery.cpp.s
 
 main.obj: main.cpp.obj
 
@@ -232,12 +421,33 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... Final_Project
+	@echo ... CreateIndexQuery.obj
+	@echo ... CreateIndexQuery.i
+	@echo ... CreateIndexQuery.s
+	@echo ... CreateTableQuery.obj
+	@echo ... CreateTableQuery.i
+	@echo ... CreateTableQuery.s
+	@echo ... Executor.obj
+	@echo ... Executor.i
+	@echo ... Executor.s
+	@echo ... InsertQuery.obj
+	@echo ... InsertQuery.i
+	@echo ... InsertQuery.s
 	@echo ... Parser.obj
 	@echo ... Parser.i
 	@echo ... Parser.s
+	@echo ... Query.obj
+	@echo ... Query.i
+	@echo ... Query.s
 	@echo ... Scanner.obj
 	@echo ... Scanner.i
 	@echo ... Scanner.s
+	@echo ... SelectQuery.obj
+	@echo ... SelectQuery.i
+	@echo ... SelectQuery.s
+	@echo ... UpdateQuery.obj
+	@echo ... UpdateQuery.i
+	@echo ... UpdateQuery.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

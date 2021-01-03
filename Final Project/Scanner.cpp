@@ -304,5 +304,4 @@ Scanner::Token Scanner::stringVariable(char current)
     }
 }
 
-
 #endif

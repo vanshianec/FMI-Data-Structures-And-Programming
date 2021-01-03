@@ -4,8 +4,13 @@
 #include <iostream>
 #include <vector>
 #include "Parser.h"
+#include "CreateIndexQuery.h"
+#include "CreateTableQuery.h"
+#include "InsertQuery.h"
+#include "UpdateQuery.h"
+#include "SelectQuery.h"
 
-Parser::Parser(std::istream& input) : scanner(input)
+Parser::Parser(std::istream& input) : scanner(input), currentQuery(nullptr)
 {
     currentToken = scanner.nextToken();
 }
@@ -21,9 +26,15 @@ void Parser::consume(TokenType expectedType)
     currentToken = scanner.nextToken();
 }
 
-void Parser::parseQuery()
+Query* Parser::parseQuery()
 {
-    while (currentToken.type != TokenType::QUIT)
+    deleteQuery();
+    if (currentToken.type == TokenType::SEMI_COLUMN)
+    {
+        consume(TokenType::SEMI_COLUMN);
+    }
+
+    if (currentToken.type != TokenType::QUIT && currentToken.type != TokenType::END_OF_FILE)
     {
         if (currentToken.type == TokenType::CREATE)
         {
@@ -41,20 +52,19 @@ void Parser::parseQuery()
         {
             parseSelectQuery();
         }
-        else if (currentToken.type == TokenType::SEMI_COLUMN)
-        {
-            consume(TokenType::SEMI_COLUMN);
-        }
         else
         {
             error("Unexpected query keyword");
         }
     }
 
-    consume(TokenType::QUIT);
-    assureSemiColumn();
+    if (currentToken.type == TokenType::QUIT)
+    {
+        consume(TokenType::QUIT);
+        assureSemiColumn();
+    }
 
-    std::cout << "Program finished!";
+    return currentQuery;
 }
 
 void Parser::consumeDataType()
@@ -214,7 +224,7 @@ void Parser::parseCreateTable()
 
     consume(TokenType::CLOSE_PARENTHESES);
 
-    std::string primaryColumn = "none";
+    std::string primaryColumn;
     if (currentToken.type != TokenType::SEMI_COLUMN)
     {
         consume(TokenType::PRIMARY);
@@ -224,13 +234,7 @@ void Parser::parseCreateTable()
     }
 
     assureSemiColumn();
-
-    std::cout << "Created table: " << tableName << " columns :";
-    for (int i = 0; i < columnNames.size(); i++)
-    {
-        std::cout << " " << columnNames[i] << ", " << columnTypes[i];
-    }
-    std::cout << " -> primary column: " << primaryColumn << std::endl;
+    currentQuery = new CreateTableQuery(tableName, columnNames, columnTypes, primaryColumn);
 }
 
 void Parser::parseCreateIndex()
@@ -244,7 +248,7 @@ void Parser::parseCreateIndex()
     consume(FIELD_NAME);
     consume(TokenType::CLOSE_PARENTHESES);
     assureSemiColumn();
-    std::cout << "Created index on " << tableName << ", " << columnName << std::endl;
+    currentQuery = new CreateIndexQuery(tableName, columnName);
 }
 
 void Parser::parseInsertQuery()
@@ -273,12 +277,7 @@ void Parser::parseInsertQuery()
 
     consume(TokenType::CLOSE_PARENTHESES);
     assureSemiColumn();
-    std::cout << "Inserted in table: " << tableName << " values : ";
-    for (int i = 0; i < columnValues.size(); i++)
-    {
-        std::cout << columnValues[i] << " ";
-    }
-    std::cout << std::endl;
+    currentQuery = new InsertQuery(tableName, columnValues);
 }
 
 void Parser::parseUpdateQuery()
@@ -289,6 +288,7 @@ void Parser::parseUpdateQuery()
     consume(TokenType::SET);
     std::vector<std::string> columnNames;
     std::vector<std::string> columnValues;
+    TokenType op;
     while (currentToken.type != TokenType::WHERE)
     {
         columnNames.push_back(currentToken.value);
@@ -301,30 +301,28 @@ void Parser::parseUpdateQuery()
             consume(TokenType::COMMA);
         }
     }
+
     if (columnNames.empty())
     {
         error("At least one column should be updated!");
     }
 
-    std::string key = "none";
-    std::string value = "none";
-    parseWhereClause(key, value);
+    std::string whereColumn;
+    std::string whereValue;
+    TokenType whereOp;
+    parseWhereClause(whereColumn, whereValue, whereOp);
     assureSemiColumn();
-
-    std::cout << "Updated a table: " << tableName << " values : ";
-    for (int i = 0; i < columnNames.size(); i++)
-    {
-        std::cout << " " << columnNames[i] << ", " << columnValues[i];
-    }
-    std::cout << " -> key: " << key << " -> value: " << value << std::endl;
+    currentQuery = new UpdateQuery(tableName, columnNames, columnValues, whereColumn, whereOp, whereValue);
 }
 
 void Parser::parseSelectQuery()
 {
     consume(TokenType::SELECT);
     std::vector<std::string> columnNames;
+    std::vector<TokenType> aggregates;
     if (currentToken.type == TokenType::WILDCARD)
     {
+        columnNames.emplace_back("*");
         consume(TokenType::WILDCARD);
     }
     else if (currentToken.type == TokenType::FIELD_NAME)
@@ -333,11 +331,16 @@ void Parser::parseSelectQuery()
     }
     else
     {
-        parseSelectAggregate(columnNames);
+        parseSelectAggregate(columnNames, aggregates);
+    }
+
+    if (columnNames.empty())
+    {
+        error("At least one column should be selected!");
     }
 
     consume(TokenType::FROM);
-    parseSelectAfterFrom(columnNames);
+    parseSelectAfterFrom(columnNames, aggregates);
 }
 
 void Parser::parseSelectColumns(std::vector<std::string>& columnNames)
@@ -352,17 +355,13 @@ void Parser::parseSelectColumns(std::vector<std::string>& columnNames)
             consume(TokenType::COMMA);
         }
     }
-
-    if (columnNames.empty())
-    {
-        error("At least one column should be selected!");
-    }
 }
 
-void Parser::parseSelectAggregate(std::vector<std::string>& columnNames)
+void Parser::parseSelectAggregate(std::vector<std::string>& columnNames, std::vector<TokenType>& aggregates)
 {
     while (currentToken.type != TokenType::FROM)
     {
+        aggregates.push_back(currentToken.type);
         consumeAggregate();
         consume(TokenType::OPEN_PARENTHESES);
         columnNames.push_back(currentToken.value);
@@ -374,50 +373,45 @@ void Parser::parseSelectAggregate(std::vector<std::string>& columnNames)
             consume(TokenType::COMMA);
         }
     }
-
-    if (columnNames.empty())
-    {
-        error("At least one column should be selected!");
-    }
 }
 
-void Parser::parseSelectAfterFrom(std::vector<std::string>& columnNames)
+void Parser::parseSelectAfterFrom(std::vector<std::string>& columnNames, std::vector<TokenType>& aggregates)
 {
     std::string tableName = currentToken.value;
     consume(TokenType::FIELD_NAME);
-    std::string key = "none";
-    std::string value = "none";
-    std::string orderColumn = "none";
+    std::string whereColumn;
+    TokenType whereOp;
+    std::string whereValue;
+    std::string orderColumn;
+    TokenType orderType;
 
     if (currentToken.type == TokenType::WHERE)
     {
-        parseWhereClause(key, value);
+        parseWhereClause(whereColumn, whereValue, whereOp);
     }
-    if (currentToken.type == TokenType::ORDER)
+    if (currentToken.type == TokenType::ORDER && aggregates.empty())
     {
-        parseOrderByClause(orderColumn);
+        parseOrderByClause(orderColumn, orderType);
     }
 
     assureSemiColumn();
-    std::cout << "Selected table: " << tableName << " values : ";
-    for (int i = 0; i < columnNames.size(); i++)
-    {
-        std::cout << " " << columnNames[i];
-    }
-    std::cout << " -> key: " << key << " -> value: " << value << " -> ordered by: " << orderColumn << std::endl;
+    currentQuery = new SelectQuery(tableName, columnNames, aggregates,
+                                   whereColumn, whereOp, whereValue,
+                                   orderColumn, orderType);
 }
 
-void Parser::parseWhereClause(std::string& key, std::string& value)
+void Parser::parseWhereClause(std::string& whereColumn, std::string& whereValue, TokenType& whereOp)
 {
     consume(TokenType::WHERE);
-    key = currentToken.value;
+    whereColumn = currentToken.value;
     consume(TokenType::FIELD_NAME);
+    whereOp = currentToken.type;
     consumeOperator();
-    value = currentToken.value;
+    whereValue = currentToken.value;
     consumeColumnValue();
 }
 
-void Parser::parseOrderByClause(std::string& orderColumn)
+void Parser::parseOrderByClause(std::string& orderColumn, TokenType& orderType)
 {
     consume(TokenType::ORDER);
     consume(TokenType::BY);
@@ -437,7 +431,7 @@ void Parser::parseOrderByClause(std::string& orderColumn)
     }
 }
 
-void Parser::error(const char *message) const
+void Parser::error(const char* message) const
 {
     throw std::invalid_argument(message);
 }
@@ -448,6 +442,20 @@ void Parser::assureSemiColumn() const
     {
         error("Expected a ';'");
     }
+}
+
+void Parser::deleteQuery()
+{
+    if (currentQuery != nullptr)
+    {
+        delete currentQuery;
+        currentQuery = nullptr;
+    }
+}
+
+Parser::~Parser()
+{
+    deleteQuery();
 }
 
 #endif

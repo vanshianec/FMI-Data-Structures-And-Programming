@@ -6,6 +6,24 @@
 
 #IncludeRegexTransform: 
 
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/CreateIndexQuery.h
+Query.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/CreateTableQuery.h
+vector
+-
+Query.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
+TokenType.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/TokenType.h
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/InsertQuery.h
+Query.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
+vector
+-
+
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Parser.cpp
 iostream
 -
@@ -13,6 +31,16 @@ vector
 -
 Parser.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Parser.h
+CreateIndexQuery.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/CreateIndexQuery.h
+CreateTableQuery.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/CreateTableQuery.h
+InsertQuery.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/InsertQuery.h
+UpdateQuery.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/UpdateQuery.h
+SelectQuery.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/SelectQuery.h
 
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Parser.h
 istream
@@ -21,6 +49,12 @@ vector
 -
 Scanner.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Scanner.h
+Query.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
+string
+-
 
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Scanner.h
 istream
@@ -28,5 +62,21 @@ istream
 TokenType.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/TokenType.h
 
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/SelectQuery.h
+Query.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
+TokenType.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/TokenType.h
+vector
+-
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/TokenType.h
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/UpdateQuery.h
+Query.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
+TokenType.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/TokenType.h
+vector
+-
 
