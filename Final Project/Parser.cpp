@@ -258,10 +258,10 @@ void Parser::parseInsertQuery()
     std::string tableName = currentToken.value;
     consume(TokenType::FIELD_NAME);
     consume(TokenType::OPEN_PARENTHESES);
-    std::vector<std::string> columnValues;
+    std::vector<Scanner::Token> columnValues;
     while (currentToken.type != TokenType::CLOSE_PARENTHESES)
     {
-        columnValues.push_back(currentToken.value);
+        columnValues.push_back(currentToken);
         consumeColumnValue();
 
         if (currentToken.type != TokenType::CLOSE_PARENTHESES)

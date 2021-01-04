@@ -18,5 +18,20 @@ void CreateTableQuery::accept(Executor& executor)
     executor.execute(*this);
 }
 
+const std::vector<std::string>& CreateTableQuery::getColumnNames() const
+{
+    return columnNames;
+}
+
+const std::vector<TokenType>& CreateTableQuery::getColumnTypes() const
+{
+    return columnTypes;
+}
+
+const std::string& CreateTableQuery::getPrimaryKey() const
+{
+    return primaryKey;
+}
+
 #endif
 

@@ -92,12 +92,6 @@
 		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/CreateTableQuery.h">
 			<Option target="Final_Project"/>
 		</Unit>
-		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Executor.cpp">
-			<Option target="Final_Project"/>
-		</Unit>
-		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Executor.h">
-			<Option target="Final_Project"/>
-		</Unit>
 		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/InsertQuery.cpp">
 			<Option target="Final_Project"/>
 		</Unit>
@@ -114,6 +108,12 @@
 			<Option target="Final_Project"/>
 		</Unit>
 		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h">
+			<Option target="Final_Project"/>
+		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/QueryExecutor.cpp">
+			<Option target="Final_Project"/>
+		</Unit>
+		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/QueryExecutor.h">
 			<Option target="Final_Project"/>
 		</Unit>
 		<Unit filename="E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Scanner.cpp">

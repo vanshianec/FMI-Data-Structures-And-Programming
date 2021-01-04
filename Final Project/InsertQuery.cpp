@@ -4,7 +4,7 @@
 #include "InsertQuery.h"
 #include "Executor.h"
 
-InsertQuery::InsertQuery(const std::string& _tableName, const std::vector<std::string>& _columnValues)
+InsertQuery::InsertQuery(const std::string& _tableName, const std::vector<Scanner::Token>& _columnValues)
         : Query(_tableName)
 {
     columnValues = _columnValues;
@@ -13,6 +13,11 @@ InsertQuery::InsertQuery(const std::string& _tableName, const std::vector<std::s
 void InsertQuery::accept(Executor& executor)
 {
     executor.execute(*this);
+}
+
+const std::vector<Scanner::Token>& InsertQuery::getColumnValues() const
+{
+    return columnValues;
 }
 
 

@@ -10,5 +10,10 @@ Query::~Query()
 
 }
 
+const std::string& Query::getTableName() const
+{
+    return tableName;
+}
+
 #endif
 

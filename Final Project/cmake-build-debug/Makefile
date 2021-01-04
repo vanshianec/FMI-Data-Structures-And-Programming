@@ -196,33 +196,6 @@ CreateTableQuery.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.s
 .PHONY : CreateTableQuery.cpp.s
 
-Executor.obj: Executor.cpp.obj
-
-.PHONY : Executor.obj
-
-# target to build an object file
-Executor.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Executor.cpp.obj
-.PHONY : Executor.cpp.obj
-
-Executor.i: Executor.cpp.i
-
-.PHONY : Executor.i
-
-# target to preprocess a source file
-Executor.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Executor.cpp.i
-.PHONY : Executor.cpp.i
-
-Executor.s: Executor.cpp.s
-
-.PHONY : Executor.s
-
-# target to generate assembly for a file
-Executor.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Executor.cpp.s
-.PHONY : Executor.cpp.s
-
 InsertQuery.obj: InsertQuery.cpp.obj
 
 .PHONY : InsertQuery.obj
@@ -303,6 +276,33 @@ Query.s: Query.cpp.s
 Query.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Query.cpp.s
 .PHONY : Query.cpp.s
+
+QueryExecutor.obj: QueryExecutor.cpp.obj
+
+.PHONY : QueryExecutor.obj
+
+# target to build an object file
+QueryExecutor.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/QueryExecutor.cpp.obj
+.PHONY : QueryExecutor.cpp.obj
+
+QueryExecutor.i: QueryExecutor.cpp.i
+
+.PHONY : QueryExecutor.i
+
+# target to preprocess a source file
+QueryExecutor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/QueryExecutor.cpp.i
+.PHONY : QueryExecutor.cpp.i
+
+QueryExecutor.s: QueryExecutor.cpp.s
+
+.PHONY : QueryExecutor.s
+
+# target to generate assembly for a file
+QueryExecutor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/QueryExecutor.cpp.s
+.PHONY : QueryExecutor.cpp.s
 
 Scanner.obj: Scanner.cpp.obj
 
@@ -427,9 +427,6 @@ help:
 	@echo ... CreateTableQuery.obj
 	@echo ... CreateTableQuery.i
 	@echo ... CreateTableQuery.s
-	@echo ... Executor.obj
-	@echo ... Executor.i
-	@echo ... Executor.s
 	@echo ... InsertQuery.obj
 	@echo ... InsertQuery.i
 	@echo ... InsertQuery.s
@@ -439,6 +436,9 @@ help:
 	@echo ... Query.obj
 	@echo ... Query.i
 	@echo ... Query.s
+	@echo ... QueryExecutor.obj
+	@echo ... QueryExecutor.i
+	@echo ... QueryExecutor.s
 	@echo ... Scanner.obj
 	@echo ... Scanner.i
 	@echo ... Scanner.s

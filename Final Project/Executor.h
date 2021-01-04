@@ -10,11 +10,11 @@
 class Executor
 {
 public:
-    void execute(SelectQuery&);
-    void execute(CreateTableQuery&);
-    void execute(CreateIndexQuery&);
-    void execute(InsertQuery&);
-    void execute(UpdateQuery&);
+    virtual void execute(SelectQuery&) = 0;
+    virtual void execute(CreateTableQuery&) = 0;
+    virtual void execute(CreateIndexQuery&) = 0;
+    virtual void execute(InsertQuery&) = 0;
+    virtual void execute(UpdateQuery&) = 0;
 };
 
 #endif

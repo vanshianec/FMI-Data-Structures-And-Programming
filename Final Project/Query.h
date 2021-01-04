@@ -13,6 +13,7 @@ protected:
 
 public:
     virtual void accept(Executor&) = 0;
+    const std::string& getTableName() const;
     virtual ~Query();
 };
 
