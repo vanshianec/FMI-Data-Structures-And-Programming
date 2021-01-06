@@ -14,7 +14,7 @@ private:
     Query* currentQuery;
 
     void consume(TokenType);
-    void consumeDataType();
+    void consumeDataType(std::vector<TokenType>&);
     void consumeColumnValue();
     void consumeOperator();
     void consumeAggregate();
@@ -27,7 +27,7 @@ private:
     void parseSelectAggregate(std::vector<std::string>&, std::vector<TokenType>&);
     void parseSelectColumns(std::vector<std::string>&);
     void parseSelectAfterFrom(std::vector<std::string>&, std::vector<TokenType>&);
-    void parseWhereClause(std::string&, std::string&, TokenType&);
+    void parseWhereClause(std::string&, Scanner::Token&, TokenType&);
     void parseOrderByClause(std::string&, TokenType&);
     void assureSemiColumn() const;
     void error(const char*) const;

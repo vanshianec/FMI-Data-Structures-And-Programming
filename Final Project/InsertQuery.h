@@ -3,7 +3,6 @@
 
 #include <vector>
 #include "Query.h"
-#include "Scanner.h"
 
 class InsertQuery : public Query
 {

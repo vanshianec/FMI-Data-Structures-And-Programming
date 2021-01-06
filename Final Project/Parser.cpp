@@ -67,23 +67,27 @@ Query* Parser::parseQuery()
     return currentQuery;
 }
 
-void Parser::consumeDataType()
+void Parser::consumeDataType(std::vector<TokenType>& tableColumnsDataTypes)
 {
     if (currentToken.type == TokenType::INT_DATATYPE)
     {
         consume(TokenType::INT_DATATYPE);
+        tableColumnsDataTypes.push_back(TokenType::INT);
     }
     else if (currentToken.type == TokenType::DOUBLE_DATATYPE)
     {
         consume(TokenType::DOUBLE_DATATYPE);
+        tableColumnsDataTypes.push_back(TokenType::DOUBLE);
     }
     else if (currentToken.type == TokenType::BOOL_DATATYPE)
     {
         consume(TokenType::BOOL_DATATYPE);
+        tableColumnsDataTypes.push_back(TokenType::BOOL);
     }
     else if (currentToken.type == TokenType::STRING_DATATYPE)
     {
         consume(TokenType::STRING_DATATYPE);
+        tableColumnsDataTypes.push_back(TokenType::STRING);
     }
     else
     {
@@ -101,13 +105,9 @@ void Parser::consumeColumnValue()
     {
         consume(TokenType::DOUBLE);
     }
-    else if (currentToken.type == TokenType::TRUE)
+    else if (currentToken.type == TokenType::BOOL)
     {
-        consume(TokenType::TRUE);
-    }
-    else if (currentToken.type == TokenType::FALSE)
-    {
-        consume(TokenType::FALSE);
+        consume(TokenType::BOOL);
     }
     else if (currentToken.type == TokenType::STRING)
     {
@@ -208,8 +208,7 @@ void Parser::parseCreateTable()
     {
         columnNames.push_back(currentToken.value);
         consume(TokenType::FIELD_NAME);
-        columnTypes.push_back(currentToken.type);
-        consumeDataType();
+        consumeDataType(columnTypes);
 
         if (currentToken.type != TokenType::CLOSE_PARENTHESES)
         {
@@ -287,14 +286,13 @@ void Parser::parseUpdateQuery()
     consume(TokenType::FIELD_NAME);
     consume(TokenType::SET);
     std::vector<std::string> columnNames;
-    std::vector<std::string> columnValues;
-    TokenType op;
+    std::vector<Scanner::Token> columnValues;
     while (currentToken.type != TokenType::WHERE)
     {
         columnNames.push_back(currentToken.value);
         consume(TokenType::FIELD_NAME);
         consume(TokenType::EQUAL_OP);
-        columnValues.push_back(currentToken.value);
+        columnValues.push_back(currentToken);
         consumeColumnValue();
         if (currentToken.type != TokenType::WHERE)
         {
@@ -308,7 +306,7 @@ void Parser::parseUpdateQuery()
     }
 
     std::string whereColumn;
-    std::string whereValue;
+    Scanner::Token whereValue;
     TokenType whereOp;
     parseWhereClause(whereColumn, whereValue, whereOp);
     assureSemiColumn();
@@ -400,14 +398,14 @@ void Parser::parseSelectAfterFrom(std::vector<std::string>& columnNames, std::ve
                                    orderColumn, orderType);
 }
 
-void Parser::parseWhereClause(std::string& whereColumn, std::string& whereValue, TokenType& whereOp)
+void Parser::parseWhereClause(std::string& whereColumn,  Scanner::Token& whereValue, TokenType& whereOp)
 {
     consume(TokenType::WHERE);
     whereColumn = currentToken.value;
     consume(TokenType::FIELD_NAME);
     whereOp = currentToken.type;
     consumeOperator();
-    whereValue = currentToken.value;
+    whereValue = currentToken;
     consumeColumnValue();
 }
 

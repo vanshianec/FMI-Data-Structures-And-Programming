@@ -137,7 +137,7 @@ Scanner::Token Scanner::stringValue()
 
     if (!hasMoreTokens())
     {
-        throw std::invalid_argument("String value quotes should be closed");
+        throw std::invalid_argument("String getWhereValue quotes should be closed");
     }
 
     input.get();
@@ -288,11 +288,11 @@ Scanner::Token Scanner::stringVariable(char current)
     }
     else if (word == "TRUE")
     {
-        return Token{TRUE, "1"};
+        return Token{BOOL, "1"};
     }
     else if (word == "FALSE")
     {
-        return Token{FALSE, "0"};
+        return Token{BOOL, "0"};
     }
     else if (word == "QUIT")
     {

@@ -21,6 +21,14 @@ public:
                 const std::string&, const TokenType&, const std::string&, const std::string&, const TokenType&);
 
     void accept(Executor&) override;
+
+    const std::vector<std::string>& getColumnNames() const;
+    const std::vector<TokenType>& getAggregates() const;
+    const std::string& getWhereColumn() const;
+    TokenType getWhereOp() const;
+    const std::string& getWhereValue() const;
+    const std::string& getOrderByColumn() const;
+    TokenType getOrderType() const;
 };
 
 #endif

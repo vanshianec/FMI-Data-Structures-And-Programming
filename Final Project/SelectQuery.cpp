@@ -23,5 +23,40 @@ void SelectQuery::accept(Executor& executor)
     executor.execute(*this);
 }
 
+const std::vector<std::string>& SelectQuery::getColumnNames() const
+{
+    return columnNames;
+}
+
+const std::vector<TokenType>& SelectQuery::getAggregates() const
+{
+    return aggregates;
+}
+
+const std::string& SelectQuery::getWhereColumn() const
+{
+    return whereColumn;
+}
+
+TokenType SelectQuery::getWhereOp() const
+{
+    return whereOp;
+}
+
+const std::string& SelectQuery::getWhereValue() const
+{
+    return whereValue;
+}
+
+const std::string& SelectQuery::getOrderByColumn() const
+{
+    return orderByColumn;
+}
+
+TokenType SelectQuery::getOrderType() const
+{
+    return orderType;
+}
+
 #endif
 
