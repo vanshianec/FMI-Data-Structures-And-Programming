@@ -6,7 +6,7 @@
 
 SelectQuery::SelectQuery(const std::string& _tableName, const std::vector<std::string>& _columnNames,
                          const std::vector<TokenType>& _aggregates, const std::string& _whereColumn,
-                         const TokenType& _whereOp, const std::string& _whereValue,
+                         const TokenType& _whereOp, const Scanner::Token& _whereValue,
                          const std::string& _orderByColumn, const TokenType& _orderType) : Query(_tableName)
 {
     columnNames = _columnNames;
@@ -43,7 +43,7 @@ TokenType SelectQuery::getWhereOp() const
     return whereOp;
 }
 
-const std::string& SelectQuery::getWhereValue() const
+const Scanner::Token& SelectQuery::getWhereValue() const
 {
     return whereValue;
 }

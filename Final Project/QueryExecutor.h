@@ -29,13 +29,16 @@ public:
     void readPrimaryKey();
     void updateRows(int columnsSize, const Scanner::Token&, const TokenType&, const std::vector<TokenType>&, int,
                     std::map<int, std::string>&, std::map<int, Scanner::Token>&);
-    bool
-    validateQueryColumnNames(const std::vector<std::string>& queryColumnNames,
-                             const std::vector<std::string>& columnNames) const;
+
+    bool validateQueryColumnNames(std::map<int, std::string>&, const std::vector<std::string>& queryColumnNames,
+                                  const std::vector<std::string>& columnNames) const;
+
+    bool validateWhereColumn(const std::string&, const std::vector<TokenType>&, int, const Scanner::Token&);
+
 };
 
 bool validateArgumentType(const std::vector<Scanner::Token>&, const TokenType&, int, const std::string&);
-bool isWhereConditionMet(const std::string&, const TokenType&, const Scanner::Token&, const TokenType&);
+bool isWhereConditionMet(const std::string&, const TokenType&, const Scanner::Token&);
 bool isMoreThan(const std::string&, const Scanner::Token&);
 bool isLessThan(const std::string&, const Scanner::Token&);
 bool areValuesEqual(const std::string&, const Scanner::Token&);

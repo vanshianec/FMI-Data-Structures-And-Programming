@@ -21,33 +21,86 @@ void QueryExecutor::execute(SelectQuery& selectQuery)
     const std::string whereColumn = selectQuery.getWhereColumn();
     std::vector<TokenType> columnTypes;
     std::vector<std::string> columnNames;
+    const Scanner::Token whereValue = selectQuery.getWhereValue();
     int whereColumnIndex = readTableColumns(columnsSize, whereColumn, columnTypes, columnNames);
-    if (whereColumnIndex == -1 && !whereColumn.empty())
+    if (!whereColumn.empty() && !validateWhereColumn(whereColumn, columnTypes, whereColumnIndex, whereValue))
     {
-        std::cout << "There is no such column: [" << whereColumn << "] in the table";
-        fileStream.close();
         return;
     }
 
-    if (!validateQueryColumnNames(queryColumnNames, columnNames))
+    std::map<int, std::string> queryColumnNamesByPosition;
+    if (!validateQueryColumnNames(queryColumnNamesByPosition, queryColumnNames, columnNames))
     {
         return;
     }
+
     readPrimaryKey();
 
-    if (whereColumnIndex != -1)
+    TokenType whereOp = selectQuery.getWhereOp();
+    std::vector<std::vector<std::string>> selectedRows;
+    while (!fileStream.eof())
     {
+        int pos = fileStream.tellg();
+        for (int i = 0; i < columnsSize; i++)
+        {
+            std::string columnValue = readColumnValue(columnTypes[i]);
+            if (whereColumnIndex == -1 ||
+                (whereColumnIndex == i && isWhereConditionMet(columnValue, whereOp, whereValue)))
+            {
+                fileStream.seekp(pos);
+                std::vector<std::string> currentRow(queryColumnNames.size());
+                for (int j = 0; j < columnsSize; j++)
+                {
+                    columnValue = readColumnValue(columnTypes[i]);
+                    if (queryColumnNamesByPosition.find(j) == queryColumnNamesByPosition.end())
+                    {
+                        for (int k = 0; k < queryColumnNames.size(); k++)
+                        {
+                            if (queryColumnNames[k] == queryColumnNamesByPosition[j])
+                            {
+                                currentRow[k] = columnValue;
+                                break;
+                            }
+                        }
+                    }
+                }
 
+                selectedRows.push_back(currentRow);
+                break;
+            }
+        }
     }
 
+    std::cout << "Rows selected: " << selectedRows.size() << std::endl;
+    for (int i = 0; i < selectedRows.size(); i++)
+    {
+        std::vector<std::string> currentRow = selectedRows[i];
+        for (int j = 0; j < currentRow.size(); j++)
+        {
+            std::cout << currentRow[j];
+            if (j != currentRow.size() - 1)
+            {
+                std::cout << ", ";
+            }
+        }
 
+        std::cout << std::endl;
+    }
+
+    fileStream.close();
 }
 
-bool QueryExecutor::validateQueryColumnNames(const std::vector<std::string>& queryColumnNames,
+bool QueryExecutor::validateQueryColumnNames(std::map<int, std::string>& queryColumnsByPosition,
+                                             const std::vector<std::string>& queryColumnNames,
                                              const std::vector<std::string>& columnNames) const
 {
     if (queryColumnNames[0] == "*")
     {
+        for (int i = 0; i < queryColumnNames.size(); i++)
+        {
+            queryColumnsByPosition[i] = queryColumnNames[i];
+        }
+
         return true;
     }
 
@@ -195,10 +248,9 @@ void QueryExecutor::execute(UpdateQuery& updateQuery)
     std::vector<TokenType> columnTypes;
     std::vector<std::string> columnNames;
     int whereColumnIndex = readTableColumns(columnsSize, whereColumn, columnTypes, columnNames);
-    if (whereColumnIndex == -1)
+    const Scanner::Token whereValue = updateQuery.getWhereValue();
+    if (!validateWhereColumn(whereColumn, columnTypes, whereColumnIndex, whereValue))
     {
-        std::cout << "There is no such column: [" << whereColumn << "] in the table";
-        fileStream.close();
         return;
     }
 
@@ -214,11 +266,29 @@ void QueryExecutor::execute(UpdateQuery& updateQuery)
     }
 
     readPrimaryKey();
-    const Scanner::Token whereValue = updateQuery.getWhereValue();
     const TokenType whereOp = updateQuery.getOp();
     updateRows(columnsSize, whereValue, whereOp, columnTypes, whereColumnIndex, queryColumnNamesByPosition,
                queryColumnValuesByPosition);
     fileStream.close();
+}
+
+bool QueryExecutor::validateWhereColumn(const std::string& whereColumn, const std::vector<TokenType>& columnTypes,
+                                        int whereColumnIndex, const Scanner::Token& whereValue)
+{
+    if (whereColumnIndex == -1)
+    {
+        std::cout << "There is no such column: [" << whereColumn << "] in the table";
+        fileStream.close();
+        return false;
+    }
+    else if (columnTypes[whereColumnIndex] != whereValue.type)
+    {
+        std::cout << "Where column type doesn't match expected column type";
+        fileStream.close();
+        return false;
+    }
+
+    return true;
 }
 
 void QueryExecutor::updateRows(int columnsSize, const Scanner::Token& whereValue, const TokenType& whereOp,
@@ -233,7 +303,7 @@ void QueryExecutor::updateRows(int columnsSize, const Scanner::Token& whereValue
         for (int i = 0; i < columnsSize; i++)
         {
             std::string columnValue = readColumnValue(columnTypes[i]);
-            if (i == whereColumnIndex && isWhereConditionMet(columnValue, whereOp, whereValue, columnTypes[i]))
+            if (i == whereColumnIndex && isWhereConditionMet(columnValue, whereOp, whereValue))
             {
                 fileStream.seekp(pos);
                 for (int j = 0; j < columnsSize; j++)
@@ -303,15 +373,8 @@ bool QueryExecutor::validateQueryColumnArguments(const std::vector<Scanner::Toke
     return true;
 }
 
-bool isWhereConditionMet(const std::string& columnValue, const TokenType op, const Scanner::Token& whereValue,
-                         const TokenType columnType)
+bool isWhereConditionMet(const std::string& columnValue, const TokenType& op, const Scanner::Token& whereValue)
 {
-    if (whereValue.type != columnType)
-    {
-        std::cout << "Invalid column type in where clause expected....";
-        return false;
-    }
-
     switch (op)
     {
         case EQUAL_OP:
