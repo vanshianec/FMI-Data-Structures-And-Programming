@@ -6,7 +6,7 @@
 
 SelectQuery::SelectQuery(const std::string& _tableName, const std::vector<std::string>& _columnNames,
                          const std::vector<TokenType>& _aggregates, const std::string& _whereColumn,
-                         const TokenType& _whereOp, const Scanner::Token& _whereValue,
+                         const TokenType& _whereOp, const Token& _whereValue,
                          const std::string& _orderByColumn, const TokenType& _orderType) : Query(_tableName)
 {
     columnNames = _columnNames;
@@ -18,9 +18,9 @@ SelectQuery::SelectQuery(const std::string& _tableName, const std::vector<std::s
     orderType = _orderType;
 }
 
-void SelectQuery::accept(Executor& executor)
+void SelectQuery::accept(Executor* executor)
 {
-    executor.execute(*this);
+    executor->execute(*this);
 }
 
 const std::vector<std::string>& SelectQuery::getColumnNames() const
@@ -43,7 +43,7 @@ TokenType SelectQuery::getWhereOp() const
     return whereOp;
 }
 
-const Scanner::Token& SelectQuery::getWhereValue() const
+const Token& SelectQuery::getWhereValue() const
 {
     return whereValue;
 }

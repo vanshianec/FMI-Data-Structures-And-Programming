@@ -5,13 +5,10 @@
 #include "Executor.h"
 
 UpdateQuery::UpdateQuery(const std::string& _tableName, const std::vector<std::string>& _columnNames,
-                         const std::vector<Scanner::Token>& _columnValues, const std::string& _whereColumn,
-                         const TokenType& _op, const Scanner::Token& _value) : Query(_tableName)
+                         const std::vector<Token>& _columnValues, const std::string& _whereColumn,
+                         const TokenType& _op, const Token& _value) : Query(_tableName)
 {
-    if (!areColumnsValuesValid(_columnValues))
-    {
-        return;
-    }
+    validateColumnValues(_columnValues);
     columnNames = _columnNames;
     columnValues = _columnValues;
     whereColumn = _whereColumn;
@@ -19,9 +16,9 @@ UpdateQuery::UpdateQuery(const std::string& _tableName, const std::vector<std::s
     whereValue = _value;
 }
 
-void UpdateQuery::accept(Executor& executor)
+void UpdateQuery::accept(Executor* executor)
 {
-    executor.execute(*this);
+    executor->execute(*this);
 }
 
 const std::vector<std::string>& UpdateQuery::getColumnNames() const
@@ -29,7 +26,7 @@ const std::vector<std::string>& UpdateQuery::getColumnNames() const
     return columnNames;
 }
 
-const std::vector<Scanner::Token>& UpdateQuery::getColumnValues() const
+const std::vector<Token>& UpdateQuery::getColumnValues() const
 {
     return columnValues;
 }
@@ -44,7 +41,7 @@ TokenType UpdateQuery::getOp() const
     return op;
 }
 
-const Scanner::Token& UpdateQuery::getWhereValue() const
+const Token& UpdateQuery::getWhereValue() const
 {
     return whereValue;
 }

@@ -7,10 +7,12 @@ class CreateIndexQuery : public Query
 {
 private:
     std::string columnName;
+public:
+    const std::string& getColumnName() const;
 
 public:
     CreateIndexQuery(const std::string&, const std::string&);
-    void accept(Executor&) override;
+    void accept(Executor*) override;
 };
 
 #endif

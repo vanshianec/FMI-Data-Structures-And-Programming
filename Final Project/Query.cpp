@@ -17,20 +17,18 @@ const std::string& Query::getTableName() const
     return tableName;
 }
 
-bool Query::areColumnsValuesValid(const std::vector<Scanner::Token>& values)
+void Query::validateColumnValues(const std::vector<Token>& values)
 {
-    for (const auto & columnValue : values)
+    for (const auto& columnValue : values)
     {
         int length = columnValue.value.length();
         if (length > maxStringValueLength)
         {
-            std::cout << "Inserted string : [" << columnValue.value
-                      << "] is too long, max allowed length is " << maxStringValueLength << " characters" << std::endl;
-            return false;
+            std::string message = "Inserted string : [" + columnValue.value + "] is too long, max allowed length is "
+                                  + std::to_string(maxStringValueLength) + " characters";
+            throw std::invalid_argument(message);
         }
     }
-
-    return true;
 }
 
 #endif

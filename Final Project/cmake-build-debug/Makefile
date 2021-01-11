@@ -196,6 +196,33 @@ CreateTableQuery.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.s
 .PHONY : CreateTableQuery.cpp.s
 
+Executor.obj: Executor.cpp.obj
+
+.PHONY : Executor.obj
+
+# target to build an object file
+Executor.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Executor.cpp.obj
+.PHONY : Executor.cpp.obj
+
+Executor.i: Executor.cpp.i
+
+.PHONY : Executor.i
+
+# target to preprocess a source file
+Executor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Executor.cpp.i
+.PHONY : Executor.cpp.i
+
+Executor.s: Executor.cpp.s
+
+.PHONY : Executor.s
+
+# target to generate assembly for a file
+Executor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Executor.cpp.s
+.PHONY : Executor.cpp.s
+
 InsertQuery.obj: InsertQuery.cpp.obj
 
 .PHONY : InsertQuery.obj
@@ -358,6 +385,33 @@ SelectQuery.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/SelectQuery.cpp.s
 .PHONY : SelectQuery.cpp.s
 
+Token.obj: Token.cpp.obj
+
+.PHONY : Token.obj
+
+# target to build an object file
+Token.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Token.cpp.obj
+.PHONY : Token.cpp.obj
+
+Token.i: Token.cpp.i
+
+.PHONY : Token.i
+
+# target to preprocess a source file
+Token.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Token.cpp.i
+.PHONY : Token.cpp.i
+
+Token.s: Token.cpp.s
+
+.PHONY : Token.s
+
+# target to generate assembly for a file
+Token.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Final_Project.dir\build.make CMakeFiles/Final_Project.dir/Token.cpp.s
+.PHONY : Token.cpp.s
+
 UpdateQuery.obj: UpdateQuery.cpp.obj
 
 .PHONY : UpdateQuery.obj
@@ -427,6 +481,9 @@ help:
 	@echo ... CreateTableQuery.obj
 	@echo ... CreateTableQuery.i
 	@echo ... CreateTableQuery.s
+	@echo ... Executor.obj
+	@echo ... Executor.i
+	@echo ... Executor.s
 	@echo ... InsertQuery.obj
 	@echo ... InsertQuery.i
 	@echo ... InsertQuery.s
@@ -445,6 +502,9 @@ help:
 	@echo ... SelectQuery.obj
 	@echo ... SelectQuery.i
 	@echo ... SelectQuery.s
+	@echo ... Token.obj
+	@echo ... Token.i
+	@echo ... Token.s
 	@echo ... UpdateQuery.obj
 	@echo ... UpdateQuery.i
 	@echo ... UpdateQuery.s

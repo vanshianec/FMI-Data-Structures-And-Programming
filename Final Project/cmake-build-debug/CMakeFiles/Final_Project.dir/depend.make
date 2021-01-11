@@ -3,48 +3,137 @@
 
 CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj: ../CreateIndexQuery.cpp
 CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj: ../CreateIndexQuery.h
+CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj: ../CreateTableQuery.h
+CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj: ../Executable.h
+CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj: ../Executor.h
+CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj: ../InsertQuery.h
 CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj: ../Query.h
+CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj: ../Scanner.h
+CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj: ../SelectQuery.h
+CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj: ../Token.h
+CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj: ../TokenType.h
+CMakeFiles/Final_Project.dir/CreateIndexQuery.cpp.obj: ../UpdateQuery.h
 
+CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj: ../CreateIndexQuery.h
 CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj: ../CreateTableQuery.cpp
 CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj: ../CreateTableQuery.h
+CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj: ../Executable.h
+CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj: ../Executor.h
+CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj: ../InsertQuery.h
 CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj: ../Query.h
+CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj: ../Scanner.h
+CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj: ../SelectQuery.h
+CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj: ../Token.h
 CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj: ../TokenType.h
+CMakeFiles/Final_Project.dir/CreateTableQuery.cpp.obj: ../UpdateQuery.h
 
+CMakeFiles/Final_Project.dir/Executor.cpp.obj: ../CreateIndexQuery.h
+CMakeFiles/Final_Project.dir/Executor.cpp.obj: ../CreateTableQuery.h
+CMakeFiles/Final_Project.dir/Executor.cpp.obj: ../Executable.h
+CMakeFiles/Final_Project.dir/Executor.cpp.obj: ../Executor.cpp
+CMakeFiles/Final_Project.dir/Executor.cpp.obj: ../Executor.h
+CMakeFiles/Final_Project.dir/Executor.cpp.obj: ../InsertQuery.h
+CMakeFiles/Final_Project.dir/Executor.cpp.obj: ../Query.h
+CMakeFiles/Final_Project.dir/Executor.cpp.obj: ../Scanner.h
+CMakeFiles/Final_Project.dir/Executor.cpp.obj: ../SelectQuery.h
+CMakeFiles/Final_Project.dir/Executor.cpp.obj: ../Token.h
+CMakeFiles/Final_Project.dir/Executor.cpp.obj: ../TokenType.h
+CMakeFiles/Final_Project.dir/Executor.cpp.obj: ../UpdateQuery.h
+
+CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj: ../CreateIndexQuery.h
+CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj: ../CreateTableQuery.h
+CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj: ../Executable.h
+CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj: ../Executor.h
 CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj: ../InsertQuery.cpp
 CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj: ../InsertQuery.h
 CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj: ../Query.h
+CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj: ../Scanner.h
+CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj: ../SelectQuery.h
+CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj: ../Token.h
+CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj: ../TokenType.h
+CMakeFiles/Final_Project.dir/InsertQuery.cpp.obj: ../UpdateQuery.h
 
 CMakeFiles/Final_Project.dir/Parser.cpp.obj: ../CreateIndexQuery.h
 CMakeFiles/Final_Project.dir/Parser.cpp.obj: ../CreateTableQuery.h
+CMakeFiles/Final_Project.dir/Parser.cpp.obj: ../Executable.h
 CMakeFiles/Final_Project.dir/Parser.cpp.obj: ../InsertQuery.h
 CMakeFiles/Final_Project.dir/Parser.cpp.obj: ../Parser.cpp
 CMakeFiles/Final_Project.dir/Parser.cpp.obj: ../Parser.h
 CMakeFiles/Final_Project.dir/Parser.cpp.obj: ../Query.h
 CMakeFiles/Final_Project.dir/Parser.cpp.obj: ../Scanner.h
 CMakeFiles/Final_Project.dir/Parser.cpp.obj: ../SelectQuery.h
+CMakeFiles/Final_Project.dir/Parser.cpp.obj: ../Token.h
 CMakeFiles/Final_Project.dir/Parser.cpp.obj: ../TokenType.h
 CMakeFiles/Final_Project.dir/Parser.cpp.obj: ../UpdateQuery.h
 
+CMakeFiles/Final_Project.dir/Query.cpp.obj: ../Executable.h
 CMakeFiles/Final_Project.dir/Query.cpp.obj: ../Query.cpp
 CMakeFiles/Final_Project.dir/Query.cpp.obj: ../Query.h
+CMakeFiles/Final_Project.dir/Query.cpp.obj: ../Scanner.h
+CMakeFiles/Final_Project.dir/Query.cpp.obj: ../Token.h
+CMakeFiles/Final_Project.dir/Query.cpp.obj: ../TokenType.h
+
+CMakeFiles/Final_Project.dir/QueryExecutor.cpp.obj: ../CreateIndexQuery.h
+CMakeFiles/Final_Project.dir/QueryExecutor.cpp.obj: ../CreateTableQuery.h
+CMakeFiles/Final_Project.dir/QueryExecutor.cpp.obj: ../Executable.h
+CMakeFiles/Final_Project.dir/QueryExecutor.cpp.obj: ../Executor.h
+CMakeFiles/Final_Project.dir/QueryExecutor.cpp.obj: ../InsertQuery.h
+CMakeFiles/Final_Project.dir/QueryExecutor.cpp.obj: ../Query.h
+CMakeFiles/Final_Project.dir/QueryExecutor.cpp.obj: ../QueryExecutor.cpp
+CMakeFiles/Final_Project.dir/QueryExecutor.cpp.obj: ../QueryExecutor.h
+CMakeFiles/Final_Project.dir/QueryExecutor.cpp.obj: ../Scanner.h
+CMakeFiles/Final_Project.dir/QueryExecutor.cpp.obj: ../SelectQuery.h
+CMakeFiles/Final_Project.dir/QueryExecutor.cpp.obj: ../Token.h
+CMakeFiles/Final_Project.dir/QueryExecutor.cpp.obj: ../TokenType.h
+CMakeFiles/Final_Project.dir/QueryExecutor.cpp.obj: ../UpdateQuery.h
 
 CMakeFiles/Final_Project.dir/Scanner.cpp.obj: ../Scanner.cpp
 CMakeFiles/Final_Project.dir/Scanner.cpp.obj: ../Scanner.h
+CMakeFiles/Final_Project.dir/Scanner.cpp.obj: ../Token.h
 CMakeFiles/Final_Project.dir/Scanner.cpp.obj: ../TokenType.h
 
+CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj: ../CreateIndexQuery.h
+CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj: ../CreateTableQuery.h
+CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj: ../Executable.h
+CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj: ../Executor.h
+CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj: ../InsertQuery.h
 CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj: ../Query.h
+CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj: ../Scanner.h
 CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj: ../SelectQuery.cpp
 CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj: ../SelectQuery.h
+CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj: ../Token.h
 CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj: ../TokenType.h
+CMakeFiles/Final_Project.dir/SelectQuery.cpp.obj: ../UpdateQuery.h
 
+CMakeFiles/Final_Project.dir/Token.cpp.obj: ../Token.cpp
+CMakeFiles/Final_Project.dir/Token.cpp.obj: ../Token.h
+CMakeFiles/Final_Project.dir/Token.cpp.obj: ../TokenType.h
+
+CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj: ../CreateIndexQuery.h
+CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj: ../CreateTableQuery.h
+CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj: ../Executable.h
+CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj: ../Executor.h
+CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj: ../InsertQuery.h
 CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj: ../Query.h
+CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj: ../Scanner.h
+CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj: ../SelectQuery.h
+CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj: ../Token.h
 CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj: ../TokenType.h
 CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj: ../UpdateQuery.cpp
 CMakeFiles/Final_Project.dir/UpdateQuery.cpp.obj: ../UpdateQuery.h
 
+CMakeFiles/Final_Project.dir/main.cpp.obj: ../CreateIndexQuery.h
+CMakeFiles/Final_Project.dir/main.cpp.obj: ../CreateTableQuery.h
+CMakeFiles/Final_Project.dir/main.cpp.obj: ../Executable.h
+CMakeFiles/Final_Project.dir/main.cpp.obj: ../Executor.h
+CMakeFiles/Final_Project.dir/main.cpp.obj: ../InsertQuery.h
 CMakeFiles/Final_Project.dir/main.cpp.obj: ../Parser.h
 CMakeFiles/Final_Project.dir/main.cpp.obj: ../Query.h
+CMakeFiles/Final_Project.dir/main.cpp.obj: ../QueryExecutor.h
 CMakeFiles/Final_Project.dir/main.cpp.obj: ../Scanner.h
+CMakeFiles/Final_Project.dir/main.cpp.obj: ../SelectQuery.h
+CMakeFiles/Final_Project.dir/main.cpp.obj: ../Token.h
 CMakeFiles/Final_Project.dir/main.cpp.obj: ../TokenType.h
+CMakeFiles/Final_Project.dir/main.cpp.obj: ../UpdateQuery.h
 CMakeFiles/Final_Project.dir/main.cpp.obj: ../main.cpp
 

@@ -15,6 +15,7 @@ public:
     virtual void execute(CreateIndexQuery&) = 0;
     virtual void execute(InsertQuery&) = 0;
     virtual void execute(UpdateQuery&) = 0;
+    virtual ~Executor();
 };
 
 #endif

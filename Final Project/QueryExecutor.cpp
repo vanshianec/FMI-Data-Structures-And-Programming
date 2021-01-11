@@ -2,218 +2,128 @@
 #define _QUERY_EXECUTOR_CPP
 
 #include <iostream>
-#include <map>
+#include <algorithm>
 #include "QueryExecutor.h"
-
-void QueryExecutor::execute(SelectQuery& selectQuery)
-{
-    openTableFile(&selectQuery);
-    int columnsSize = readColumnsSize();
-
-    const std::vector<std::string> queryColumnNames = selectQuery.getColumnNames();
-    if (columnsSize < queryColumnNames.size())
-    {
-        std::cout << "Selected columns are more than table columns count";
-        fileStream.close();
-        return;
-    }
-
-    const std::string whereColumn = selectQuery.getWhereColumn();
-    std::vector<TokenType> columnTypes;
-    std::vector<std::string> columnNames;
-    const Scanner::Token whereValue = selectQuery.getWhereValue();
-    int whereColumnIndex = readTableColumns(columnsSize, whereColumn, columnTypes, columnNames);
-    if (!whereColumn.empty() && !validateWhereColumn(whereColumn, columnTypes, whereColumnIndex, whereValue))
-    {
-        return;
-    }
-
-    std::map<int, std::string> queryColumnNamesByPosition;
-    if (!validateQueryColumnNames(queryColumnNamesByPosition, queryColumnNames, columnNames))
-    {
-        return;
-    }
-
-    readPrimaryKey();
-
-    TokenType whereOp = selectQuery.getWhereOp();
-    std::vector<std::vector<std::string>> selectedRows;
-    while (!fileStream.eof())
-    {
-        int pos = fileStream.tellg();
-        for (int i = 0; i < columnsSize; i++)
-        {
-            std::string columnValue = readColumnValue(columnTypes[i]);
-            if (whereColumnIndex == -1 ||
-                (whereColumnIndex == i && isWhereConditionMet(columnValue, whereOp, whereValue)))
-            {
-                fileStream.seekp(pos);
-                std::vector<std::string> currentRow(queryColumnNames.size());
-                for (int j = 0; j < columnsSize; j++)
-                {
-                    columnValue = readColumnValue(columnTypes[i]);
-                    if (queryColumnNamesByPosition.find(j) == queryColumnNamesByPosition.end())
-                    {
-                        for (int k = 0; k < queryColumnNames.size(); k++)
-                        {
-                            if (queryColumnNames[k] == queryColumnNamesByPosition[j])
-                            {
-                                currentRow[k] = columnValue;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                selectedRows.push_back(currentRow);
-                break;
-            }
-        }
-    }
-
-    std::cout << "Rows selected: " << selectedRows.size() << std::endl;
-    for (int i = 0; i < selectedRows.size(); i++)
-    {
-        std::vector<std::string> currentRow = selectedRows[i];
-        for (int j = 0; j < currentRow.size(); j++)
-        {
-            std::cout << currentRow[j];
-            if (j != currentRow.size() - 1)
-            {
-                std::cout << ", ";
-            }
-        }
-
-        std::cout << std::endl;
-    }
-
-    fileStream.close();
-}
-
-bool QueryExecutor::validateQueryColumnNames(std::map<int, std::string>& queryColumnsByPosition,
-                                             const std::vector<std::string>& queryColumnNames,
-                                             const std::vector<std::string>& columnNames) const
-{
-    if (queryColumnNames[0] == "*")
-    {
-        for (int i = 0; i < queryColumnNames.size(); i++)
-        {
-            queryColumnsByPosition[i] = queryColumnNames[i];
-        }
-
-        return true;
-    }
-
-    for (int i = 0; i < queryColumnNames.size(); i++)
-    {
-        bool columnExists = false;
-        for (int j = 0; j < columnNames.size(); j++)
-        {
-            if (queryColumnNames[i] == columnNames[j])
-            {
-                columnExists = true;
-                break;
-            }
-        }
-
-        if (!columnExists)
-        {
-            std::cout << "There is no such column: [" << queryColumnNames[i] << "] in the table" << std::endl;
-            return false;
-        }
-    }
-
-    return true;
-}
-
 
 void QueryExecutor::execute(CreateTableQuery& createTableQuery)
 {
     const std::string tableName = createTableQuery.getTableName();
-    const std::vector<std::string> columnNames = createTableQuery.getColumnNames();
-    const std::vector<TokenType> columnTypes = createTableQuery.getColumnTypes();
-    const std::string primaryKey = createTableQuery.getPrimaryKey();
-    fileStream.open(tableName + ".dat", std::ios::out | std::ios::binary);
+    std::vector<Token> columns = createTableQuery.getColumns();
+    Token primaryKey = createTableQuery.getPrimaryKey();
+    fileStream.open(tableName, std::ios::out | std::ios::binary);
 
-    int columnsSize = columnNames.size();
+    int columnsSize = columns.size();
     fileStream.write((char*) &columnsSize, sizeof(columnsSize));
 
     for (int i = 0; i < columnsSize; i++)
     {
-        fileStream.write((char*) &columnTypes[i], sizeof(TokenType));
-        int columnNameLength = columnNames[i].length();
-        fileStream.write((char*) &columnNameLength, sizeof(columnNameLength));
-        fileStream.write(columnNames[i].c_str(), columnNameLength);
+        columns[i].write(fileStream);
     }
 
-    int primaryKeyLength = primaryKey.length();
-    fileStream.write((char*) &primaryKeyLength, sizeof(primaryKeyLength));
-    fileStream.write(primaryKey.c_str(), primaryKeyLength);
-    fileStream.close();
-}
+    primaryKey.write(fileStream);
 
-void QueryExecutor::execute(CreateIndexQuery&)
-{
-    //TODO
+    std::cout << "Table \"" << tableName << "\" created." << std::endl;
+    fileStream.close();
 }
 
 void QueryExecutor::execute(InsertQuery& insertQuery)
 {
-    if (!openTableFile(&insertQuery))
-    {
-        std::cout << "Cannot open table file";
-        return;
-    }
+    std::string tableName = insertQuery.getTableName();
+    openTableFile(tableName);
 
     int columnsSize = readColumnsSize();
-    const std::vector<Scanner::Token> columnValues = insertQuery.getColumnValues();
+    const std::vector<Token> insertValues = insertQuery.getInsertValues();
 
-    if (columnsSize != columnValues.size())
+    if (columnsSize != insertValues.size())
     {
-        std::cout << "Arguments count doesn't match table columns count";
+        std::cout << "Insert values count doesn't match table columns count" << std::endl;
         fileStream.close();
         return;
     }
 
     std::vector<TokenType> columnTypes;
-    if (!readColumnsTypes(columnsSize, columnValues, columnTypes))
-    {
-        return;
-    }
+    std::vector<std::string> columnNames;
+    readTableColumns(columnsSize, insertValues, columnNames, columnTypes);
 
+    Token primaryKey;
+    primaryKey.read(fileStream);
+
+    std::set<std::string> primaryKeyValues;
+    readPrimaryKeyValues(columnsSize, columnTypes, columnNames, primaryKey, primaryKeyValues);
+    checkForDuplicateValue(columnsSize, insertValues, columnNames, primaryKey, primaryKeyValues);
+    fileStream.clear();
     fileStream.seekp(0, std::ios_base::end);
-
     for (int i = 0; i < columnsSize; i++)
     {
-        std::string columnValue = columnValues[i].value;
+        std::string insertValue = insertValues[i].value;
         TokenType columnType = columnTypes[i];
-        writeColumnArgument(columnValue, columnType);
+        writeInsertArgument(insertValue, columnType);
     }
 
+    std::cout << "Record inserted." << std::endl;
     fileStream.close();
 }
 
-bool QueryExecutor::readColumnsTypes(int columnsSize, const std::vector<Scanner::Token>& columnValues,
-                                     std::vector<TokenType>& columnTypes)
+void QueryExecutor::checkForDuplicateValue(int columnsSize, const std::vector<Token>& insertValues,
+                                           const std::vector<std::string>& columnNames, const Token& primaryKey,
+                                           const std::set<std::string>& primaryKeyValues)
 {
-    TokenType columnType;
-    int columnNameLength;
     for (int i = 0; i < columnsSize; i++)
     {
-        std::string columnName;
-        fileStream.read((char*) &columnType, sizeof(TokenType));
-        fileStream.read((char*) &columnNameLength, sizeof(columnNameLength));
-        columnName.resize(columnNameLength);
-        fileStream.read(&columnName[0], columnNameLength);
-        if (!validateArgumentType(columnValues, columnType, i, columnName))
+        if (primaryKey.value == columnNames[i] &&
+            primaryKeyValues.find(insertValues[i].value) != primaryKeyValues.end())
         {
             fileStream.close();
-            return false;
+            error("ERROR: Duplicate primary key value. Record NOT inserted");
         }
-        columnTypes.push_back(columnType);
+    }
+}
+
+void QueryExecutor::readPrimaryKeyValues(int columnsSize, const std::vector<TokenType>& columnTypes,
+                                         const std::vector<std::string>& columnNames, const Token& primaryKey,
+                                         std::set<std::string>& primaryKeyValues)
+{
+    while (true)
+    {
+        for (int i = 0; i < columnsSize; i++)
+        {
+            std::string columnValue = readColumnValue(columnTypes[i]);
+            if (fileStream.eof())
+            {
+                return;
+            }
+            if (primaryKey.value == columnNames[i])
+            {
+                primaryKeyValues.insert(columnValue);
+            }
+        }
+    }
+}
+
+void QueryExecutor::openTableFile(const std::string& tableName)
+{
+    if (!fileExists(tableName.c_str()))
+    {
+        error("There is no such table: '" + tableName + "'");
     }
 
-    return true;
+    fileStream.open(tableName, std::ios::in | std::ios::out | std::ios::binary);
+
+    if (!fileStream)
+    {
+        error("Cannot open file");
+    }
+}
+
+void error(const std::string& message)
+{
+    throw std::invalid_argument(message);
+}
+
+bool fileExists(const char* fileName)
+{
+    std::ifstream infile(fileName);
+    return infile.good();
 }
 
 int QueryExecutor::readColumnsSize()
@@ -223,239 +133,35 @@ int QueryExecutor::readColumnsSize()
     return columnsSize;
 }
 
-bool QueryExecutor::openTableFile(const Query* query)
+void QueryExecutor::readTableColumns(int columnsSize, const std::vector<Token>& insertValues,
+                                     std::vector<std::string>& columnNames, std::vector<TokenType>& columnTypes)
 {
-    const std::string tableName = query->getTableName();
-    fileStream.open(tableName + ".dat", std::ios::binary);
-    return (bool) fileStream;
-}
-
-void QueryExecutor::execute(UpdateQuery& updateQuery)
-{
-    openTableFile(&updateQuery);
-    int columnsSize = readColumnsSize();
-
-    const std::vector<Scanner::Token> queryColumnValues = updateQuery.getColumnValues();
-    if (columnsSize < queryColumnValues.size())
-    {
-        std::cout << "Column arguments are more than table columns count";
-        fileStream.close();
-        return;
-    }
-
-    const std::string whereColumn = updateQuery.getWhereColumn();
-
-    std::vector<TokenType> columnTypes;
-    std::vector<std::string> columnNames;
-    int whereColumnIndex = readTableColumns(columnsSize, whereColumn, columnTypes, columnNames);
-    const Scanner::Token whereValue = updateQuery.getWhereValue();
-    if (!validateWhereColumn(whereColumn, columnTypes, whereColumnIndex, whereValue))
-    {
-        return;
-    }
-
-    const std::vector<std::string> queryColumnNames = updateQuery.getColumnNames();
-    std::map<int, std::string> queryColumnNamesByPosition;
-    std::map<int, Scanner::Token> queryColumnValuesByPosition;
-
-    if (!validateQueryColumnArguments(queryColumnValues, queryColumnNames, columnTypes, columnNames,
-                                      queryColumnNamesByPosition,
-                                      queryColumnValuesByPosition))
-    {
-        return;
-    }
-
-    readPrimaryKey();
-    const TokenType whereOp = updateQuery.getOp();
-    updateRows(columnsSize, whereValue, whereOp, columnTypes, whereColumnIndex, queryColumnNamesByPosition,
-               queryColumnValuesByPosition);
-    fileStream.close();
-}
-
-bool QueryExecutor::validateWhereColumn(const std::string& whereColumn, const std::vector<TokenType>& columnTypes,
-                                        int whereColumnIndex, const Scanner::Token& whereValue)
-{
-    if (whereColumnIndex == -1)
-    {
-        std::cout << "There is no such column: [" << whereColumn << "] in the table";
-        fileStream.close();
-        return false;
-    }
-    else if (columnTypes[whereColumnIndex] != whereValue.type)
-    {
-        std::cout << "Where column type doesn't match expected column type";
-        fileStream.close();
-        return false;
-    }
-
-    return true;
-}
-
-void QueryExecutor::updateRows(int columnsSize, const Scanner::Token& whereValue, const TokenType& whereOp,
-                               const std::vector<TokenType>& columnTypes, int whereColumnIndex,
-                               std::map<int, std::string>& queryColumnNamesByPosition,
-                               std::map<int, Scanner::Token>& queryColumnValuesByPosition)
-{
-    int updatedRows = 0;
-    while (!fileStream.eof())
-    {
-        int pos = fileStream.tellg();
-        for (int i = 0; i < columnsSize; i++)
-        {
-            std::string columnValue = readColumnValue(columnTypes[i]);
-            if (i == whereColumnIndex && isWhereConditionMet(columnValue, whereOp, whereValue))
-            {
-                fileStream.seekp(pos);
-                for (int j = 0; j < columnsSize; j++)
-                {
-                    if (queryColumnNamesByPosition.find(j) == queryColumnNamesByPosition.end())
-                    {
-                        readColumnValue(columnTypes[j]);
-                    }
-                    else
-                    {
-                        Scanner::Token queryColumnValue = queryColumnValuesByPosition[j];
-                        writeColumnArgument(queryColumnValue.value, queryColumnValue.type);
-                        updatedRows++;
-                    }
-                }
-
-                break;
-            }
-        }
-    }
-
-    std::cout << updatedRows << " rows updated" << std::endl;
-}
-
-void QueryExecutor::readPrimaryKey()
-{
-    int primaryKeyLength;
-    fileStream.read((char*) &primaryKeyLength, sizeof(primaryKeyLength));
-    std::string primaryKey;
-    primaryKey.resize(primaryKeyLength);
-    fileStream.read(&primaryKey[0], primaryKeyLength);
-}
-
-bool QueryExecutor::validateQueryColumnArguments(const std::vector<Scanner::Token>& queryColumnValues,
-                                                 const std::vector<std::string>& queryColumnNames,
-                                                 const std::vector<TokenType>& columnTypes,
-                                                 const std::vector<std::string>& columnNames,
-                                                 std::map<int, std::string>& queryColumnNamesByPosition,
-                                                 std::map<int, Scanner::Token>& queryColumnValuesByPosition) const
-{
-    for (int i = 0; i < queryColumnNames.size(); i++)
-    {
-        bool columnExists = false;
-        for (int j = 0; j < columnNames.size(); j++)
-        {
-            if (queryColumnNames[i] == columnNames[j])
-            {
-                if (queryColumnValues[i].type != columnTypes[j])
-                {
-                    std::cout << "Query column type doesn't match the table column type ... exp, act";
-                    return false;
-                }
-                columnExists = true;
-                queryColumnNamesByPosition[j] = queryColumnNames[i];
-                queryColumnValuesByPosition[j] = queryColumnValues[i];
-                break;
-            }
-        }
-
-        if (!columnExists)
-        {
-            std::cout << "There is no such column: [" << queryColumnNames[i] << "] in the table";
-            return false;
-        }
-    }
-
-    return true;
-}
-
-bool isWhereConditionMet(const std::string& columnValue, const TokenType& op, const Scanner::Token& whereValue)
-{
-    switch (op)
-    {
-        case EQUAL_OP:
-            return areValuesEqual(columnValue, whereValue);
-        case LESS_THAN_OP:
-            return isLessThan(columnValue, whereValue);
-        case MORE_THAN_OP:
-            return isMoreThan(columnValue, whereValue);
-        case LESS_THAN_OR_EQUAL_OP:
-            return areValuesEqual(columnValue, whereValue) || isLessThan(columnValue, whereValue);
-        case MORE_THAN_OR_EQUAL_OP:
-            return areValuesEqual(columnValue, whereValue) || isMoreThan(columnValue, whereValue);
-    }
-
-    return false;
-}
-
-bool isMoreThan(const std::string& columnValue, const Scanner::Token& whereValue)
-{
-    switch (whereValue.type)
-    {
-        case INT:
-            return std::stoi(columnValue) > std::stoi(whereValue.value);
-        case DOUBLE:
-            return std::stod(columnValue) > std::stoi(whereValue.value);
-        case BOOL:
-            return columnValue == "1" && whereValue.value == "0";
-        case STRING:
-            return columnValue.compare(whereValue.value) > 0;
-    }
-}
-
-bool isLessThan(const std::string& columnValue, const Scanner::Token& whereValue)
-{
-    switch (whereValue.type)
-    {
-        case INT:
-            return std::stoi(columnValue) < std::stoi(whereValue.value);
-        case DOUBLE:
-            return std::stod(columnValue) < std::stoi(whereValue.value);
-        case BOOL:
-            return columnValue == "0" && whereValue.value == "1";
-        case STRING:
-            return columnValue.compare(whereValue.value) < 0;
-    }
-}
-
-bool areValuesEqual(const std::string& columnValue, const Scanner::Token& whereValue)
-{
-    return columnValue == whereValue.value;
-}
-
-int
-QueryExecutor::readTableColumns(int columnsSize, const std::string& whereColumn, std::vector<TokenType>& columnTypes,
-                                std::vector<std::string>& columnNames)
-{
-    int whereColumnIndex = -1;
-
     for (int i = 0; i < columnsSize; i++)
     {
-        TokenType columnType;
-        int columnNameLength;
-        std::string columnName;
-
-        fileStream.read((char*) &columnType, sizeof(TokenType));
-        fileStream.read((char*) &columnNameLength, sizeof(columnNameLength));
-        columnName.resize(columnNameLength);
-        fileStream.read(&columnName[0], columnNameLength);
-        if (columnName == whereColumn)
-        {
-            whereColumnIndex = i;
-        }
-
-        columnNames.push_back(columnName);
-        columnTypes.push_back(columnType);
+        Token currentColumn;
+        currentColumn.read(fileStream);
+        validateArgumentType(insertValues[i], currentColumn.type, currentColumn.value);
+        columnTypes.push_back(currentColumn.type);
+        columnNames.push_back(currentColumn.value);
     }
-
-    return whereColumnIndex;
 }
 
-void QueryExecutor::writeColumnArgument(const std::string& columnValue, const TokenType& columnType)
+void QueryExecutor::validateArgumentType(const Token& currentInsertToken, const TokenType& columnType,
+                                         const std::string& columnName)
+{
+    if (columnType != currentInsertToken.type)
+    {
+        fileStream.close();
+        std::string message = "Invalid argument '" + currentInsertToken.value + "' for column : '"
+                              + columnName + "' ! Expected type: ";
+        message.append(tokenTypeToString(columnType));
+        message.append(", Provided type: ");
+        message.append(tokenTypeToString(currentInsertToken.type));
+        error(message);
+    }
+}
+
+void QueryExecutor::writeInsertArgument(const std::string& columnValue, const TokenType& columnType)
 {
     if (columnType == INT)
     {
@@ -474,12 +180,461 @@ void QueryExecutor::writeColumnArgument(const std::string& columnValue, const To
     }
     else if (columnType == STRING)
     {
-        int length = columnValue.length();
-        fileStream.write((char*) &length, sizeof(length));
-        fileStream.write(columnValue.c_str(), length);
-        std::string empty;
-        fileStream.write(empty.c_str(), Query::maxStringValueLength - length);
+        writeStringValue(fileStream, columnValue);
     }
+}
+
+void writeStringValue(std::fstream& stream, const std::string& columnValue)
+{
+    int length = columnValue.length();
+    stream.write((char*) &length, sizeof(length));
+    stream.write(columnValue.c_str(), length);
+    std::string empty;
+    stream.write(empty.c_str(), Query::maxStringValueLength - length);
+}
+
+void QueryExecutor::execute(CreateIndexQuery& createIndexQuery)
+{
+    const std::string tableName = createIndexQuery.getTableName();
+    openTableFile(tableName);
+    const std::string columnName = createIndexQuery.getColumnName();
+
+    int columnsSize = readColumnsSize();
+    std::vector<std::string> columnNames;
+    std::vector<TokenType> columnTypes;
+    int columnIndex = findColumnIndex(columnsSize, columnName, columnTypes, columnNames);
+    if (columnIndex == -1)
+    {
+        std::cout << "There is no such column: [" << columnName << "] in the table" << std::endl;
+        fileStream.close();
+        return;
+    }
+
+    Token primaryKey;
+    primaryKey.read(fileStream);
+    bool isPrimary = columnName == primaryKey.value;
+
+    while (true)
+    {
+        int pos = fileStream.tellg();
+        for (int i = 0; i < columnsSize; i++)
+        {
+            std::string columnValue = readColumnValue(columnTypes[i]);
+            if (fileStream.eof())
+            {
+                std::cout << "Created index" << std::endl;
+                fileStream.close();
+                return;
+            }
+        }
+    }
+}
+
+void QueryExecutor::execute(UpdateQuery& updateQuery)
+{
+    const std::string tableName = updateQuery.getTableName();
+    openTableFile(tableName);
+    int columnsSize = readColumnsSize();
+
+    const std::vector<Token> queryColumnValues = updateQuery.getColumnValues();
+    if (columnsSize < queryColumnValues.size())
+    {
+        std::cout << "Query arguments are more than table columns count" << std::endl;
+        fileStream.close();
+        return;
+    }
+
+    const std::string whereColumn = updateQuery.getWhereColumn();
+
+    std::vector<TokenType> columnTypes;
+    std::vector<std::string> columnNames;
+    int whereColumnIndex = findColumnIndex(columnsSize, whereColumn, columnTypes, columnNames);
+    const Token whereValue = updateQuery.getWhereValue();
+    if (!validateWhereColumn(whereColumn, columnTypes, whereColumnIndex, whereValue))
+    {
+        return;
+    }
+
+    const std::vector<std::string> queryColumnNames = updateQuery.getColumnNames();
+    std::unordered_map<int, std::string> queryColumnNamesByPosition;
+    std::unordered_map<int, Token> queryColumnValuesByPosition;
+
+    if (!validateQueryColumnArguments(queryColumnValues, queryColumnNames, columnTypes, columnNames,
+                                      queryColumnNamesByPosition, queryColumnValuesByPosition))
+    {
+        return;
+    }
+
+    Token primaryKey;
+    primaryKey.read(fileStream);
+    const TokenType whereOp = updateQuery.getOp();
+    updateRows(columnsSize, whereValue, whereOp, columnTypes, whereColumnIndex, queryColumnNamesByPosition,
+               queryColumnValuesByPosition);
+}
+
+bool validateWhereColumn(const std::string& whereColumn, const std::vector<TokenType>& columnTypes,
+                         int whereColumnIndex, const Token& whereValue)
+{
+    if (whereColumnIndex == -1)
+    {
+        std::cout << "There is no such column: [" + whereColumn + "] in the table" << std::endl;
+        return false;
+    }
+    else if (columnTypes[whereColumnIndex] != whereValue.type)
+    {
+        std::cout << "Where column type doesn't match expected column type!"
+                  << "Expected type: " << tokenTypeToString(columnTypes[whereColumnIndex])
+                  << ", Actual type: " << tokenTypeToString(whereValue.type) << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
+bool validateQueryColumnArguments(const std::vector<Token>& queryColumnValues,
+                                  const std::vector<std::string>& queryColumnNames,
+                                  const std::vector<TokenType>& columnTypes,
+                                  const std::vector<std::string>& columnNames,
+                                  std::unordered_map<int, std::string>& queryColumnNamesByPosition,
+                                  std::unordered_map<int, Token>& queryColumnValuesByPosition)
+{
+    for (int i = 0; i < queryColumnNames.size(); i++)
+    {
+        bool columnExists = false;
+        for (int j = 0; j < columnNames.size(); j++)
+        {
+            if (queryColumnNames[i] == columnNames[j])
+            {
+                if (queryColumnValues[i].type != columnTypes[j])
+                {
+                    std::string message = "Invalid argument '" + queryColumnValues[i].value + "' for column : '"
+                                          + columnNames[j] + "' ! Expected type: ";
+                    message.append(tokenTypeToString(columnTypes[j]));
+                    message.append(", Provided type: ");
+                    message.append(tokenTypeToString(queryColumnValues[i].type));
+                    std::cout << message << std::endl;
+                    return false;
+                }
+                columnExists = true;
+                queryColumnNamesByPosition[j] = queryColumnNames[i];
+                queryColumnValuesByPosition[j] = queryColumnValues[i];
+                break;
+            }
+        }
+
+        if (!columnExists)
+        {
+            std::cout << "There is no such column: [" << queryColumnNames[i] << "] in the table" << std::endl;
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void QueryExecutor::updateRows(int columnsSize, const Token& whereValue, const TokenType& whereOp,
+                               const std::vector<TokenType>& columnTypes, int whereColumnIndex,
+                               std::unordered_map<int, std::string>& queryColumnNamesByPosition,
+                               std::unordered_map<int, Token>& queryColumnValuesByPosition)
+{
+    int updatedRows = 0;
+    while (true)
+    {
+        int pos = fileStream.tellg();
+        for (int i = 0; i < columnsSize; i++)
+        {
+            std::string columnValue = readColumnValue(columnTypes[i]);
+            if (fileStream.eof())
+            {
+                std::cout << updatedRows << " rows updated." << std::endl;
+                fileStream.close();
+                return;
+            }
+            if (i == whereColumnIndex && isWhereConditionMet(columnValue, whereOp, whereValue))
+            {
+                fileStream.seekp(pos);
+                for (int j = 0; j < columnsSize; j++)
+                {
+                    if (queryColumnNamesByPosition.find(j) == queryColumnNamesByPosition.end())
+                    {
+                        readColumnValue(columnTypes[j]);
+                    }
+                    else
+                    {
+                        Token queryColumnValue = queryColumnValuesByPosition[j];
+                        writeInsertArgument(queryColumnValue.value, queryColumnValue.type);
+                    }
+                }
+                updatedRows++;
+                break;
+            }
+        }
+    }
+}
+
+void QueryExecutor::execute(SelectQuery& selectQuery)
+{
+    openTableFile(selectQuery.getTableName());
+    int columnsSize = readColumnsSize();
+
+    const std::vector<std::string> queryColumnNames = selectQuery.getColumnNames();
+    if (columnsSize < queryColumnNames.size())
+    {
+        std::cout << "Selected columns are more than table columns count" << std::endl;
+        fileStream.close();
+        return;
+    }
+
+    const std::string whereColumn = selectQuery.getWhereColumn();
+    std::vector<TokenType> columnTypes;
+    std::vector<std::string> columnNames;
+    const Token whereValue = selectQuery.getWhereValue();
+    int whereColumnIndex = findColumnIndex(columnsSize, whereColumn, columnTypes, columnNames);
+    if (!whereColumn.empty() && !validateWhereColumn(whereColumn, columnTypes, whereColumnIndex, whereValue))
+    {
+        return;
+    }
+
+    std::unordered_map<int, std::string> queryColumnNamesByPosition;
+    if (!validateQueryColumnNames(queryColumnNamesByPosition, queryColumnNames, columnNames))
+    {
+        return;
+    }
+
+    Token primaryKey;
+    primaryKey.read(fileStream);
+
+    readRowsToSelect(selectQuery, columnsSize, queryColumnNames, columnTypes, whereValue, whereColumnIndex,
+                     queryColumnNamesByPosition);
+
+
+}
+
+void QueryExecutor::readRowsToSelect(const SelectQuery& selectQuery, int columnsSize,
+                                     const std::vector<std::string>& queryColumnNames,
+                                     const std::vector<TokenType>& columnTypes, const Token& whereValue,
+                                     int whereColumnIndex,
+                                     std::unordered_map<int, std::string>& queryColumnNamesByPosition)
+{
+    TokenType whereOp = selectQuery.getWhereOp();
+    std::vector<std::vector<Token>> selectedRows;
+    while (true)
+    {
+        int pos = fileStream.tellg();
+        for (int i = 0; i < columnsSize; i++)
+        {
+            std::string columnValue = readColumnValue(columnTypes[i]);
+            if (fileStream.eof())
+            {
+                if (!selectQuery.getAggregates().empty())
+                {
+                    aggregateRows(selectQuery.getAggregates(), selectedRows);
+                }
+                else if (!selectQuery.getOrderByColumn().empty())
+                {
+                    fileStream.clear();
+                    fileStream.seekp(0, std::ios::beg);
+                    readColumnsSize();
+                    std::vector<std::string> names;
+                    std::vector<TokenType> types;
+                    int sortColumnIndex = findColumnIndex(columnsSize, selectQuery.getOrderByColumn(), types, names);
+                    if (sortColumnIndex == -1)
+                    {
+                        error("There is no such column: [" + selectQuery.getOrderByColumn() + "]");
+                    }
+                    //sortRows(sortColumnIndex, selectQuery.getOrderType(), selectedRows);
+                }
+
+                printSelectedRows(selectedRows);
+                fileStream.close();
+                return;
+            }
+
+            if (whereColumnIndex == -1 ||
+                (whereColumnIndex == i && isWhereConditionMet(columnValue, whereOp, whereValue)))
+            {
+                fileStream.seekp(pos);
+                int rowSize = queryColumnNames[0] == "*" ? columnsSize : queryColumnNames.size();
+                std::vector<Token> currentRow(rowSize);
+                for (int j = 0; j < columnsSize; j++)
+                {
+                    columnValue = readColumnValue(columnTypes[j]);
+                    Token currentData;
+                    currentData.value = columnValue;
+                    currentData.type = columnTypes[j];
+                    if (queryColumnNames[0] == "*")
+                    {
+                        currentRow[j] = currentData;
+                    }
+                    else if (queryColumnNamesByPosition.find(j) != queryColumnNamesByPosition.end())
+                    {
+                        for (int k = 0; k < queryColumnNames.size(); k++)
+                        {
+                            if (queryColumnNames[k] == queryColumnNamesByPosition[j])
+                            {
+                                for (int l = 0; l < queryColumnNames.size(); l++)
+                                {
+                                    if (queryColumnNames[l] == queryColumnNames[k])
+                                    {
+                                        currentRow[l] = currentData;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                selectedRows.push_back(currentRow);
+                break;
+            }
+        }
+    }
+}
+
+bool validateQueryColumnNames(std::unordered_map<int, std::string>& queryColumnsByPosition,
+                              const std::vector<std::string>& queryColumnNames,
+                              const std::vector<std::string>& columnNames)
+{
+    if (queryColumnNames[0] == "*")
+    {
+        for (int i = 0; i < queryColumnNames.size(); i++)
+        {
+            queryColumnsByPosition[i] = queryColumnNames[i];
+        }
+
+        return true;
+    }
+
+    for (int i = 0; i < queryColumnNames.size(); i++)
+    {
+        bool columnExists = false;
+        for (int j = 0; j < columnNames.size(); j++)
+        {
+            if (queryColumnNames[i] == columnNames[j])
+            {
+                queryColumnsByPosition[j] = columnNames[j];
+                columnExists = true;
+                break;
+            }
+        }
+
+        if (!columnExists)
+        {
+            std::cout << "There is no such column: [" << queryColumnNames[i] << "] in the table" << std::endl;
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void printSelectedRows(const std::vector<std::vector<Token>>& selectedRows)
+{
+    std::cout << selectedRows.size() << " rows selected." << std::endl;
+    for (int i = 0; i < selectedRows.size(); i++)
+    {
+        std::vector<Token> currentRow = selectedRows[i];
+        for (int j = 0; j < currentRow.size(); j++)
+        {
+            std::cout << currentRow[j].value;
+            if (j != currentRow.size() - 1)
+            {
+                std::cout << ", ";
+            }
+        }
+
+        std::cout << std::endl;
+    }
+}
+
+
+bool isWhereConditionMet(const std::string& columnValue, const TokenType& op, const Token& whereValue)
+{
+    switch (op)
+    {
+        case EQUAL_OP:
+            return areValuesEqual(columnValue, whereValue);
+        case LESS_THAN_OP:
+            return isLessThan(columnValue, whereValue);
+        case MORE_THAN_OP:
+            return isMoreThan(columnValue, whereValue);
+        case LESS_THAN_OR_EQUAL_OP:
+            return areValuesEqual(columnValue, whereValue) || isLessThan(columnValue, whereValue);
+        case MORE_THAN_OR_EQUAL_OP:
+            return areValuesEqual(columnValue, whereValue) || isMoreThan(columnValue, whereValue);
+    }
+
+    return false;
+}
+
+bool isMoreThan(const std::string& columnValue, const Token& whereValue)
+{
+    switch (whereValue.type)
+    {
+        case INT:
+            return std::stoi(columnValue) > std::stoi(whereValue.value);
+        case DOUBLE:
+            return std::stod(columnValue) > std::stoi(whereValue.value);
+        case BOOL:
+            return columnValue == "1" && whereValue.value == "0";
+        case STRING:
+            return columnValue.compare(whereValue.value) > 0;
+    }
+
+    return false;
+}
+
+bool isLessThan(const std::string& columnValue, const Token& whereValue)
+{
+    switch (whereValue.type)
+    {
+        case INT:
+            return std::stoi(columnValue) < std::stoi(whereValue.value);
+        case DOUBLE:
+            return std::stod(columnValue) < std::stoi(whereValue.value);
+        case BOOL:
+            return columnValue == "0" && whereValue.value == "1";
+        case STRING:
+            return columnValue.compare(whereValue.value) < 0;
+    }
+
+    return false;
+}
+
+bool areValuesEqual(const std::string& columnValue, const Token& whereValue)
+{
+    switch (whereValue.type)
+    {
+        case INT:
+            return std::stoi(columnValue) == std::stoi(whereValue.value);
+        case DOUBLE:
+            return std::stod(columnValue) == std::stoi(whereValue.value);
+    }
+
+    return columnValue == whereValue.value;
+}
+
+int
+QueryExecutor::findColumnIndex(int columnsSize, const std::string& searchColumn, std::vector<TokenType>& columnTypes,
+                               std::vector<std::string>& columnNames)
+{
+    int index = -1;
+
+    for (int i = 0; i < columnsSize; i++)
+    {
+        Token currentColumn;
+        currentColumn.read(fileStream);
+        if (currentColumn.value == searchColumn)
+        {
+            index = i;
+        }
+
+        columnNames.push_back(currentColumn.value);
+        columnTypes.push_back(currentColumn.type);
+    }
+
+    return index;
 }
 
 std::string QueryExecutor::readColumnValue(const TokenType& columnType)
@@ -507,6 +662,10 @@ std::string QueryExecutor::readColumnValue(const TokenType& columnType)
     {
         int length;
         fileStream.read((char*) &length, sizeof(length));
+        if (fileStream.eof())
+        {
+            return value;
+        }
         std::string stringValue;
         stringValue.resize(length);
         fileStream.read(&stringValue[0], length);
@@ -520,14 +679,77 @@ std::string QueryExecutor::readColumnValue(const TokenType& columnType)
     return value;
 }
 
-bool validateArgumentType(const std::vector<Scanner::Token>& columnValues, const TokenType& columnType,
-                          int index, const std::string& columnName)
+void aggregateRows(const std::vector<TokenType>& aggregates, std::vector<std::vector<Token>>& rows)
 {
-    if (columnType != columnValues[index].type)
+    std::vector<double> aggs(aggregates.size());
+    for (int i = 0; i < aggs.size(); i++)
     {
-        std::cout << "Invalid argument [" << columnValues[index].value << "] for column : " << columnName
-                  << "! Expected type: " << columnType << ", Provided type: " << columnValues[index].type << std::endl;
+        if (aggregates[i] == MIN || aggregates[i] == MAX)
+        {
+            aggs[i] = std::stod(rows[0][i].value);
+        }
+        else
+        {
+            aggs[i] = 0;
+        }
     }
+
+    for (int i = 0; i < rows.size(); i++)
+    {
+        for (int j = 0; j < rows[i].size(); j++)
+        {
+            if (rows[i][j].type != INT && rows[i][j].type != DOUBLE)
+            {
+                error("Invalid aggregate type!");
+            }
+            else
+            {
+                double value = std::stod(rows[i][j].value);
+                switch (aggregates[j])
+                {
+                    case MIN:
+                        if (value < aggs[j])
+                        {
+                            aggs[j] = value;
+                        }
+                        break;
+                    case MAX:
+                        if (value > aggs[j])
+                        {
+                            aggs[j] = value;
+                        }
+                        break;
+                    case SUM:
+                        aggs[j] += value;
+                        break;
+                    case COUNT:
+                        aggs[j]++;
+                        break;
+                    case AVG:
+                        aggs[j] += value;
+                        break;
+                }
+            }
+        }
+    }
+
+    int oldRowsSize = rows.size();
+    rows.clear();
+    std::vector<Token> row(aggs.size());
+    for (int i = 0; i < aggs.size(); i++)
+    {
+        Token token;
+        if (aggregates[i] == AVG)
+        {
+            aggs[i] = aggs[i] / oldRowsSize;
+        }
+        token.value = std::to_string(aggs[i]);
+        row[i] = token;
+    }
+
+    rows.push_back(row);
 }
 
+
 #endif
+

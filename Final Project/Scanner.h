@@ -2,16 +2,11 @@
 #define _SCANNER_H
 
 #include <istream>
-#include "TokenType.h"
+#include "Token.h"
 
 class Scanner
 {
 public:
-    struct Token
-    {
-        TokenType type;
-        std::string value;
-    };
 
     Scanner(std::istream&);
 
@@ -21,9 +16,7 @@ public:
 
 private:
     std::istream& input;
-    bool isNumber(char) const;
-    bool isDot(char) const;
-    bool isAlphabeticOrUnderscore(char) const;
+
     Token lessThanOperator();
     Token moreThanOperator();
     Token notEqualOperator();
@@ -31,7 +24,13 @@ private:
     Token stringVariable(char);
     Token numberVariable(char);
     void validateNegativeNumber(char) const;
-    void validateFloatingPointNumber(const std::string&, int, int) const;
+
 };
+
+bool isAlphabeticOrUnderscore(char);
+void validateFloatingPointNumber(const std::string&, int, int);
+bool isNumber(char);
+bool isDot(char);
+
 
 #endif

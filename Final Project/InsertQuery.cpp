@@ -5,22 +5,19 @@
 #include "InsertQuery.h"
 #include "Executor.h"
 
-InsertQuery::InsertQuery(const std::string& _tableName, const std::vector<Scanner::Token>& _columnValues)
+InsertQuery::InsertQuery(const std::string& _tableName, const std::vector<Token>& _columnValues)
         : Query(_tableName)
 {
-    if (!areColumnsValuesValid(_columnValues))
-    {
-        return;
-    }
+    validateColumnValues(_columnValues);
     columnValues = _columnValues;
 }
 
-void InsertQuery::accept(Executor& executor)
+void InsertQuery::accept(Executor* executor)
 {
-    executor.execute(*this);
+    executor->execute(*this);
 }
 
-const std::vector<Scanner::Token>& InsertQuery::getColumnValues() const
+const std::vector<Token>& InsertQuery::getInsertValues() const
 {
     return columnValues;
 }

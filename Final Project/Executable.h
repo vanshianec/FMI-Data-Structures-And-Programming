@@ -6,7 +6,7 @@ class Executor;
 class Executable
 {
 public:
-    virtual void accept(Executor&) = 0;
+    virtual void accept(Executor*) = 0;
 };
 
 #endif

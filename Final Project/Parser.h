@@ -10,11 +10,11 @@ class Parser
 {
 private:
     Scanner scanner;
-    Scanner::Token currentToken;
+    Token currentToken;
     Query* currentQuery;
 
     void consume(TokenType);
-    void consumeDataType(std::vector<TokenType>&);
+    void consumeDataType(Token&);
     void consumeColumnValue();
     void consumeOperator();
     void consumeAggregate();
@@ -27,16 +27,21 @@ private:
     void parseSelectAggregate(std::vector<std::string>&, std::vector<TokenType>&);
     void parseSelectColumns(std::vector<std::string>&);
     void parseSelectAfterFrom(std::vector<std::string>&, std::vector<TokenType>&);
-    void parseWhereClause(std::string&, Scanner::Token&, TokenType&);
+    void parseWhereClause(std::string&, Token&, TokenType&);
     void parseOrderByClause(std::string&, TokenType&);
     void assureSemiColumn() const;
-    void error(const char*) const;
     void deleteQuery();
 
 public:
     Parser(std::istream&);
     Query* parseQuery();
     ~Parser();
+    Token parsePrimaryColumn();
+    void parseCreateTableColumns(std::vector<Token>&);
+    void parseInsertColumns(std::vector<Token>& columnValues);
+    void parseUpdateColumnsSet(std::vector<std::string>& columnNames, std::vector<Token>& columnValues);
 };
+
+void error(const char*);
 
 #endif

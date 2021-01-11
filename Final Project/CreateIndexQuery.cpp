@@ -9,9 +9,14 @@ CreateIndexQuery::CreateIndexQuery(const std::string& _tableName, const std::str
     columnName = _columnName;
 }
 
-void CreateIndexQuery::accept(Executor& executor)
+void CreateIndexQuery::accept(Executor* executor)
 {
-    executor.execute(*this);
+    executor->execute(*this);
+}
+
+const std::string& CreateIndexQuery::getColumnName() const
+{
+    return columnName;
 }
 
 #endif

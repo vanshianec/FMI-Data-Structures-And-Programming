@@ -4,6 +4,7 @@
 #include "Executable.h"
 #include "Scanner.h"
 #include <string>
+#include <vector>
 
 class Query : Executable
 {
@@ -12,10 +13,10 @@ private:
 
 protected:
     Query(const std::string&);
-    static bool areColumnsValuesValid(const std::vector<Scanner::Token>&);
+    static void validateColumnValues(const std::vector<Token>&);
 
 public:
-    virtual void accept(Executor&) = 0;
+    virtual void accept(Executor*) = 0;
     const std::string& getTableName() const;
     static const int maxStringValueLength = 64;
     virtual ~Query();

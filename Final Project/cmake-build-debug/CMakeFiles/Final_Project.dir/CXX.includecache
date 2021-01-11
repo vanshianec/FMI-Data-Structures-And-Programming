@@ -11,36 +11,28 @@ Query.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
 
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/CreateTableQuery.h
-vector
--
 Query.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
 TokenType.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/TokenType.h
 
-E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/InsertQuery.h
-Query.h
-E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
-vector
--
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Executable.h
 
-E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Parser.cpp
-iostream
--
-vector
--
-Parser.h
-E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Parser.h
-CreateIndexQuery.h
-E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/CreateIndexQuery.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Executor.h
+SelectQuery.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/SelectQuery.h
 CreateTableQuery.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/CreateTableQuery.h
+CreateIndexQuery.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/CreateIndexQuery.h
 InsertQuery.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/InsertQuery.h
 UpdateQuery.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/UpdateQuery.h
-SelectQuery.h
-E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/SelectQuery.h
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/InsertQuery.h
+Query.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
 
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Parser.h
 istream
@@ -53,21 +45,53 @@ Query.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
 
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
+Executable.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Executable.h
+Scanner.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Scanner.h
 string
+-
+vector
+-
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/QueryExecutor.cpp
+iostream
+-
+algorithm
+-
+QueryExecutor.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/QueryExecutor.h
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/QueryExecutor.h
+fstream
+-
+Executor.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Executor.h
+map
+-
+unordered_map
+-
+set
 -
 
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Scanner.h
 istream
 -
-TokenType.h
-E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/TokenType.h
+Token.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Token.h
 
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/SelectQuery.h
 Query.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
 TokenType.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/TokenType.h
-vector
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Token.h
+TokenType.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/TokenType.h
+string
+-
+fstream
 -
 
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/TokenType.h
@@ -77,6 +101,12 @@ Query.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Query.h
 TokenType.h
 E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/TokenType.h
-vector
+
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/main.cpp
+iostream
 -
+Parser.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/Parser.h
+QueryExecutor.h
+E:/Programming/CLionProjects/FMI Data Structures and Programming/Final Project/QueryExecutor.h
 

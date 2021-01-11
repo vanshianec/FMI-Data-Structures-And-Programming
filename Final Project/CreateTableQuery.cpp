@@ -4,31 +4,24 @@
 #include "CreateTableQuery.h"
 #include "Executor.h"
 
-CreateTableQuery::CreateTableQuery(const std::string& _tableName, const std::vector<std::string>& _columnNames,
-                                   const std::vector<TokenType>& _columnTypes, const std::string& _key) : Query(
-        _tableName)
+CreateTableQuery::CreateTableQuery(const std::string& _tableName, const std::vector<Token>& _columns,
+                                   const Token& _key) : Query(_tableName)
 {
-    columnNames = _columnNames;
-    columnTypes = _columnTypes;
+    columns = _columns;
     primaryKey = _key;
 }
 
-void CreateTableQuery::accept(Executor& executor)
+void CreateTableQuery::accept(Executor* executor)
 {
-    executor.execute(*this);
+    executor->execute(*this);
 }
 
-const std::vector<std::string>& CreateTableQuery::getColumnNames() const
+const std::vector<Token>& CreateTableQuery::getColumns() const
 {
-    return columnNames;
+    return columns;
 }
 
-const std::vector<TokenType>& CreateTableQuery::getColumnTypes() const
-{
-    return columnTypes;
-}
-
-const std::string& CreateTableQuery::getPrimaryKey() const
+const Token& CreateTableQuery::getPrimaryKey() const
 {
     return primaryKey;
 }

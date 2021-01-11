@@ -5,7 +5,7 @@
 
 Scanner::Scanner(std::istream& _input) : input(_input) {}
 
-Scanner::Token Scanner::nextToken()
+Token Scanner::nextToken()
 {
     skipWhiteSpace();
 
@@ -68,33 +68,7 @@ bool Scanner::hasMoreTokens() const
     return (bool) input;
 }
 
-void Scanner::validateNegativeNumber(char current) const
-{
-    if (current == '-' && !hasMoreTokens())
-    {
-        throw std::invalid_argument("Invalid token");
-    }
-}
-
-void Scanner::validateFloatingPointNumber(const std::string& num, int dotsCount, int numLength) const
-{
-    if (dotsCount > 1 || num[numLength - 1] == '.' || (num[0] == '-' && num[1] == '.'))
-    {
-        throw std::invalid_argument("Invalid number token");
-    }
-}
-
-bool Scanner::isNumber(char c) const
-{
-    return std::isdigit(c) || c == '-';
-}
-
-bool Scanner::isDot(char c) const
-{
-    return c == '.';
-}
-
-Scanner::Token Scanner::lessThanOperator()
+Token Scanner::lessThanOperator()
 {
     if (input.peek() == '=')
     {
@@ -105,7 +79,7 @@ Scanner::Token Scanner::lessThanOperator()
     return Token{LESS_THAN_OP};
 }
 
-Scanner::Token Scanner::moreThanOperator()
+Token Scanner::moreThanOperator()
 {
     if (input.peek() == '=')
     {
@@ -116,7 +90,7 @@ Scanner::Token Scanner::moreThanOperator()
     return Token{MORE_THAN_OP};
 }
 
-Scanner::Token Scanner::notEqualOperator()
+Token Scanner::notEqualOperator()
 {
     if (input.peek() != '=')
     {
@@ -127,7 +101,7 @@ Scanner::Token Scanner::notEqualOperator()
     return Token{NOT_EQUAL_OP};
 }
 
-Scanner::Token Scanner::stringValue()
+Token Scanner::stringValue()
 {
     std::string stringValue;
     while (input.peek() != '"' && hasMoreTokens())
@@ -137,14 +111,19 @@ Scanner::Token Scanner::stringValue()
 
     if (!hasMoreTokens())
     {
-        throw std::invalid_argument("String getWhereValue quotes should be closed");
+        throw std::invalid_argument("String quotes should be closed");
     }
 
     input.get();
     return Token{STRING, stringValue};
 }
 
-Scanner::Token Scanner::numberVariable(char current)
+bool isNumber(char c)
+{
+    return std::isdigit(c) || c == '-';
+}
+
+Token Scanner::numberVariable(char current)
 {
     validateNegativeNumber(current);
 
@@ -168,12 +147,33 @@ Scanner::Token Scanner::numberVariable(char current)
     return Token{(dotsCount == 1 ? TokenType::DOUBLE : TokenType::INT), num};
 }
 
-bool Scanner::isAlphabeticOrUnderscore(char c) const
+void Scanner::validateNegativeNumber(char current) const
+{
+    if (current == '-' && !hasMoreTokens())
+    {
+        throw std::invalid_argument("Invalid token");
+    }
+}
+
+bool isDot(char c)
+{
+    return c == '.';
+}
+
+void validateFloatingPointNumber(const std::string& num, int dotsCount, int numLength)
+{
+    if (dotsCount > 1 || num[numLength - 1] == '.' || (num[0] == '-' && num[1] == '.'))
+    {
+        throw std::invalid_argument("Invalid number token");
+    }
+}
+
+bool isAlphabeticOrUnderscore(char c)
 {
     return c == '_' || std::isalpha(c);
 }
 
-Scanner::Token Scanner::stringVariable(char current)
+Token Scanner::stringVariable(char current)
 {
     std::string word;
     word.push_back(current);
